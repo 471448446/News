@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/str_preference">
+        <Preference
+            android:key="key_language"
+            android:title="@string/str_language"/>
+        <CheckBoxPreference
+            android:key="key_exit_confirm"
+            android:title="@string/str_exit_confirm"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/str_network">
+        <CheckBoxPreference
+            android:key="key_image_load"
+            android:summary="@string/str_image_load_summary"
+            android:title="@string/str_night_mode"/>
+    </PreferenceCategory>
+</PreferenceScreen>

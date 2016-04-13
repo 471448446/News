@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorPrimaryDark</item>-->
+        <!--&lt;!&ndash;toolbar标题文字颜色&ndash;&gt;-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+    <!--</style>-->
+    <!--<style name="AppTheme.NoActionBar.TransparentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--<item name="android:colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:colorAccent">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--&lt;!&ndash;toolbar标题文字颜色&ndash;&gt;-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--&lt;!&ndash;<item name="android:windowDrawsSystemBarBackgrounds">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; Customize your theme here. &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowTranslucentStatus">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowContentTransitions">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowAllowEnterTransitionOverlap">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowAllowReturnTransitionOverlap">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowSharedElementExitTransition">@android:transition/move</item>&ndash;&gt;-->
+    <!--</style>-->
+    <style name="AppTheme.TransparentNoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

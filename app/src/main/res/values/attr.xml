@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 背景颜色-->
+    <attr name="backgroundSimple" format="color"/>
+    <attr name="textColorPrimary" format="color"/>
+    <attr name="textColorSecond" format="color"/>
+    <attr name="colorTabTextSelect" format="color"/>
+    <attr name="colorTabTextDefault" format="color"/>
+
+</resources>

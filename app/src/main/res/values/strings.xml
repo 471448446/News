@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="app_name">悦读</string>
+    <string name="open_string">打开</string>
+    <string name="close_string">关闭</string>
+    <string name="str_language">语言</string>
+    <string name="str_preference">偏好</string>
+    <string name="str_network">网络</string>
+    <!--菜单-->
+    <string name="str_News">新闻</string>
+    <string name="str_days">日报</string>
+    <string name="str_science">果壳</string>
+    <string name="str_reading">阅读</string>
+    <string name="str_collect">收藏</string>
+    <string name="str_setting">设置</string>
+    <string name="str_exit">退出</string>
+    <!--测试-->
+    <string name="str_test_txt">--.--</string>
+
+    <string name="str_exit_msg">再按一次返回键退出!</string>
+    <string name="str_none_information">暂无信息</string>
+    <string name="str_auth">作者：%1$s</string>
+    <string name="str_page">页数：%1$s</string>
+    <string name="str_publish">出版社：%1$s</string>
+    <string name="str_exit_confirm">退出确认</string>
+    <!--设置-->
+    <string name="str_night_mode">切换主题</string>
+    <string name="str_image_load">省流量模式</string>
+    <string name="str_image_load_summary">仅在Wi-Fi下加载图片</string>
+    <string name="collection">收藏</string>
+    <string name="str_no_colllect">暂无收藏</string>
+    <string name="notify_add_to_collection">已收藏</string>
+    <string name="notify_remove_from_collection">取消收藏</string>
+
+</resources>

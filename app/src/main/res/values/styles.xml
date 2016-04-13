@@ -1,0 +1,129 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <!--toolbar标题文字颜色-->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!--需要切换夜间模式   s-->
+        <item name="backgroundSimple">@color/colorBackgroundSimple</item>
+        <item name="textColorPrimary">@color/textColorPrimary</item>
+        <item name="textColorSecond">@color/textColorSecond</item>
+        <item name="colorTabTextSelect">@color/colorTabTextSelect</item>
+        <item name="colorTabTextDefault">@color/colorTabTextDefault</item>
+        <!--需要切换夜间模式   e-->
+    </style>
+    <style name="AppTheme.TransparentNoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>-->
+    </style>
+    <!--<style name="AppTheme.NoActionBar.TransparentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorPrimaryDark</item>-->
+        <!--&lt;!&ndash;toolbar标题文字颜色&ndash;&gt;-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--&lt;!&ndash;<item name="windowActionModeOverlay">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowDrawsSystemBarBackgrounds">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:statusBarColor">@android:color/transparent</item>&ndash;&gt;-->
+    <!--</style>-->
+    <!--<style name="MyAppTheme" parent="Theme.AppCompat.DayNight">-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorPrimaryDark</item>-->
+    <!--</style>-->
+    <!-- 宽高样式 -->
+    <style name="wrapHeight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="wrapWidth">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="mathWidthH">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="wrapWidthH">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="style_setting" parent="AppTheme">
+        <!--标题-->
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <!--二级标题 描述-->
+        <item name="android:textColorSecondary">@color/textColorSecond</item>
+        <!--背景  会影响toolbar 文字背景色 该在代码中写-->
+        <!--<item name="android:background">@color/colorPreferenceFragmentBg</item>-->
+    </style>
+    <style name="styleLeftDrawerItemBase" parent="@style/wrapHeight">
+        <item name="android:paddingBottom">@dimen/border_space_normal</item>
+        <item name="android:paddingTop">@dimen/border_space_normal</item>
+        <item name="android:paddingLeft">@dimen/border_space_sec</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/txt_size_normal</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+    <style name="styleLeftDrawerItem" parent="@style/styleLeftDrawerItemBase">
+        <item name="android:background">@drawable/selector_drawer_item</item>
+        <item name="android:drawablePadding">@dimen/border_space_normal</item>
+    </style>
+
+
+    <!-- 竖直分割线 -->
+    <style name="verticalDivision">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!-- 水平分割线 -->
+    <style name="horizontalDivision">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorHorizontalDivision</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+    <!--收藏-->
+    <style name="CustomCollectTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_collect</item>
+    </style>
+    <style name="styleCollect">
+        <item name="android:button">@null</item>
+        <item name="android:drawableLeft">@drawable/selector_collect</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingLeft">@dimen/border_space_sec</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="style_custom_card_corner" parent="@style/wrapHeight">
+        <item name="android:layout_marginTop">@dimen/border_space_minor</item>
+        <item name="android:layout_marginBottom">@dimen/border_space_small</item>
+        <item name="android:layout_marginLeft">@dimen/border_space_sec</item>
+        <item name="android:layout_marginRight">@dimen/border_space_sec</item>
+        <item name="android:background">@drawable/selector_list_item_simple_cor</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="style_custom_card" parent="@style/wrapHeight">
+        <item name="android:layout_marginTop">@dimen/border_space_minor</item>
+        <item name="android:layout_marginBottom">@dimen/border_space_small</item>
+        <item name="android:background">@drawable/selector_list_item_simple</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- item布局-->
+    <style name="style_custom_card_lay" parent="@style/wrapHeight">
+        <item name="android:paddingTop">@dimen/border_space_sec</item>
+        <item name="android:paddingBottom">@dimen/border_space_sec</item>
+        <item name="android:paddingLeft">@dimen/border_space_normal</item>
+        <item name="android:paddingRight">@dimen/border_space_normal</item>
+        <item name="android:background">@drawable/selector_list_item_simple</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+</resources>

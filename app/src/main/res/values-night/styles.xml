@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--toolbar标题文字颜色-->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!--需要切换夜间模式   s-->
+        <item name="backgroundSimple">@color/colorBackgroundSimple</item>
+        <item name="textColorPrimary">@color/textColorPrimary</item>
+        <item name="textColorSecond">@color/textColorSecond</item>
+        <item name="colorTabTextSelect">@color/colorTabTextSelect</item>
+        <item name="colorTabTextDefault">@color/colorTabTextDefault</item>
+        <!--需要切换夜间模式   e-->
+    </style>
+</resources>

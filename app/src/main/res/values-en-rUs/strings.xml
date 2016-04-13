@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Happy Reading</string>
+    <string name="open_string">Open</string>
+    <string name="close_string">Close</string>
+    <string name="str_language">Language</string>
+    <string name="str_preference">Preference</string>
+    <string name="str_network">NetWork</string>
+    <!--菜单-->
+    <string name="str_News">News</string>
+    <string name="str_days">Daily</string>
+    <string name="str_science">Science</string>
+    <string name="str_reading">Reading</string>
+    <string name="str_collect">Collect</string>
+    <string name="str_setting">Setting</string>
+    <string name="str_exit">Exit</string>
+    <!--测试-->
+    <string name="str_test_txt">--.--</string>
+
+    <string name="str_exit_msg">Press the back button once again to exit!</string>
+    <string name="str_none_information">No information</string>
+    <string name="str_auth">Author：%1$s</string>
+    <string name="str_page">Pages：%1$s</string>
+    <string name="str_publish">Publisher：%1$s</string>
+    <string name="str_exit_confirm">Exit Confirm</string>
+    <!--设置-->
+    <string name="str_night_mode">Change Theme</string>
+    <string name="str_image_load">Auto Refresh</string>
+    <string name="str_image_load_summary">Load picture only under Wifi</string>
+
+</resources>

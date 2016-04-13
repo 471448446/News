@@ -1,0 +1,34 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="drawer_left_head">168dp</dimen>
+    <!--标题-->
+    <!-- 标题，导航栏 -->
+    <dimen name="tab_height">45dip</dimen>
+    <dimen name="top_bar_height">45dip</dimen>
+    <dimen name="tool_bar_top_padding">0dp</dimen>
+    <dimen name="title_back_padding_left">15dp</dimen>
+    <dimen name="title_back_padding_right">15dp</dimen>
+    <dimen name="title_operation_text_size">17sp</dimen>
+    <!-- 文本大小-->
+    <!-- 普通文本-->
+    <dimen name="txt_size_minor">11sp</dimen>
+    <dimen name="txt_size_14">14sp</dimen>
+    <dimen name="txt_size_small">15sp</dimen>
+    <dimen name="txt_size_normal">16sp</dimen>
+    <dimen name="txt_size_max">18sp</dimen>
+    <dimen name="txt_size_bl">20sp</dimen>
+    <!--边距大小-->
+    <dimen name="border_space_minor">2dp</dimen>
+    <dimen name="border_space_small">5dp</dimen>
+    <dimen name="border_space_sec">10dp</dimen>
+    <dimen name="border_space_normal">15dp</dimen>
+    <dimen name="border_space_max">20dp</dimen>
+    <!-- card 圆角大小-->
+    <dimen name="card_corner">5dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <!--小图片大小-->
+    <dimen name="img_w">100dp</dimen>
+    <dimen name="img_h">90dp</dimen>
+</resources>

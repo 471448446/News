@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryDark">#1E282D</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorHorizontalDivision">#43525A</color>
+    <color name="colorBackgroundSimple">#37474F</color>
+    <color name="colorBackgroundSimplePress">#525354</color>
+    <!--<color name="colorDividerSimple">#212B30</color>-->
+    <color name="colorPreferenceFragmentBg">#1E282D</color>
+    <!--一般字体颜色 白色-->
+    <color name="textColorPrimary">#DFE9E9</color>
+    <color name="textColorSecond">#A3ABAE</color>
+    <color name="textColorThird">#9FABAC</color>
+    <color name="colorTabTextSelect">#DFE9E9</color>
+    <color name="colorTabTextDefault">#727679</color>
+
+    <color name="colorListDividerSimple">#212B30</color>
+    <color name="colorListItemSimple">@color/colorBackgroundSimple</color>
+    <color name="colorListItemSimplePress">@color/colorBackgroundSimplePress</color>
+</resources>

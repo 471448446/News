@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorListDividerSimple">
+
+    <LinearLayout
+        style="@style/style_custom_card_corner"
+        android:padding="@dimen/border_space_sec">
+
+        <TextView
+            android:id="@+id/item_science_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_test_txt"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/txt_size_normal" />
+
+        <TextView
+            android:id="@+id/item_science_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/border_space_small"
+            android:text="@string/str_test_txt"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/txt_size_minor" />
+
+        <ImageView
+            android:id="@+id/item_science_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border_space_small"
+            android:maxHeight="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_downloading" />
+
+        <TextView
+            android:id="@+id/item_science_tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/border_space_normal"
+            android:paddingTop="@dimen/border_space_small"
+            android:text="@string/str_test_txt"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/txt_size_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/border_space_max"
+            android:text="@string/str_test_txt"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/txt_size_small"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

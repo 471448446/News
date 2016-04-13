@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_left_head"
+        android:background="@drawable/background_material"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/border_space_sec"
+        android:paddingTop="@dimen/tool_bar_top_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="@dimen/tool_bar_top_padding"
+            android:src="@mipmap/user_default"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/border_space_normal"
+            android:text="@string/str_test_txt" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/backgroundSimple">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/drawer_news"
+                style="@style/styleLeftDrawerItem"
+                android:drawableLeft="@drawable/ic_news_24dp"
+                android:text="@string/str_News" />
+
+            <TextView
+                android:id="@+id/drawer_days"
+                style="@style/styleLeftDrawerItem"
+                android:drawableLeft="@drawable/ic_today_24dp"
+                android:text="@string/str_days" />
+
+            <TextView
+                android:id="@+id/drawer_science"
+                style="@style/styleLeftDrawerItem"
+                android:drawableLeft="@drawable/ic_science_24dp"
+                android:text="@string/str_science" />
+
+            <TextView
+                android:id="@+id/drawer_read"
+                style="@style/styleLeftDrawerItem"
+                android:drawableLeft="@drawable/ic_read_24dp"
+                android:text="@string/str_reading" />
+            <TextView
+                android:id="@+id/drawer_collect"
+                style="@style/styleLeftDrawerItem"
+                android:drawableLeft="@drawable/ic_bookmark_24dp"
+                android:text="@string/str_collect" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorHorizontalDivision" />
+
+            <TextView
+                android:id="@+id/drawer_night"
+                style="@style/styleLeftDrawerItemBase"
+                android:text="@string/str_night_mode" />
+
+            <TextView
+                android:id="@+id/drawer_setting"
+                style="@style/styleLeftDrawerItemBase"
+                android:text="@string/str_setting" />
+
+            <TextView
+                android:id="@+id/drawer_exit"
+                style="@style/styleLeftDrawerItemBase"
+                android:text="@string/str_exit" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

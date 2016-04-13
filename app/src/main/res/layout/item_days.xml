@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorListDividerSimple">
+
+    <LinearLayout
+        style="@style/style_custom_card"
+        android:background="@drawable/selector_list_item_simple"
+        android:orientation="horizontal"
+        android:padding="@dimen/border_space_sec">
+
+        <ImageView
+            android:id="@+id/item_days_img"
+            android:layout_width="@dimen/img_w"
+            android:layout_height="@dimen/img_h"
+            android:paddingLeft="@dimen/border_space_small"
+            android:src="@drawable/icon_downloading" />
+
+        <TextView
+            android:id="@+id/item_days_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:paddingTop="@dimen/border_space_sec"
+            android:text="@string/str_test_txt"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/txt_size_normal" />
+    </LinearLayout>
+</LinearLayout>

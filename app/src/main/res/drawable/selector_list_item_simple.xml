@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/colorListItemSimplePress"/>
+        </shape>
+    </item>
+    <item >
+        <shape>
+            <solid android:color="@color/colorListItemSimple"/>
+        </shape>
+    </item>
+</selector>
+<!--普通的listItem渐变 白色->灰色  黑色->暗黑色-->
