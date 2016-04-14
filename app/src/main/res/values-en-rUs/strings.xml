@@ -12,7 +12,7 @@
     <string name="str_reading">Reading</string>
     <string name="str_collect">Collect</string>
     <string name="str_setting">Setting</string>
-    <string name="str_exit">Exit</string>
+    <string name="str_about">About</string>
     <!--测试-->
     <string name="str_test_txt">--.--</string>
 
@@ -26,5 +26,7 @@
     <string name="str_night_mode">Change Theme</string>
     <string name="str_image_load">Auto Refresh</string>
     <string name="str_image_load_summary">Load picture only under Wifi</string>
-
+    <!--关于-->
+    <string name="copyright">CopyRight</string>
+    <string name="copyright_brief">This application is prohibited for commercial purposes, all of the data from the open API, the copyright belongs to the original author.</string>
 </resources>

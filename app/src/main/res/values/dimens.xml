@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="drawer_left_head">168dp</dimen>
+    <dimen name="drawer_left_head_paddingTop">15dp</dimen>
     <!--标题-->
     <!-- 标题，导航栏 -->
     <dimen name="tab_height">45dip</dimen>

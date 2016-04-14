@@ -1,3 +1,6 @@
 <resources>
+    <!-- 因为fifSystemWindow statusBar大概是24-->
+    <dimen name="drawer_left_head">192dp</dimen>
+    <dimen name="drawer_left_head_paddingTop">39dp</dimen>
     <!--<dimen name="tool_bar_top_padding">24dp</dimen>-->
 </resources>

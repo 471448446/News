@@ -14,6 +14,7 @@ import android.widget.TextView;
 import better.news.R;
 import better.news.support.Setting;
 import better.news.support.util.ExitAppHelper;
+import better.news.ui.about.AboutActivity;
 import better.news.ui.base.BaseActivity;
 import better.news.ui.coll.ColletTabFragment;
 import better.news.ui.days.DaysFragment;
@@ -118,7 +119,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.drawer_setting, R.id.drawer_days, R.id.drawer_news, R.id.drawer_science, R.id.drawer_read,
-            R.id.drawer_night, R.id.drawer_exit, R.id.drawer_collect})
+            R.id.drawer_night, R.id.drawer_about, R.id.drawer_collect})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.drawer_setting:
@@ -127,11 +128,11 @@ public class MainActivity extends BaseActivity {
             case R.id.drawer_night:
                 drawerLayout.closeDrawers();
                 isChangeNight = true;
-//                changeNightMode();
                 break;
-            case R.id.drawer_exit:
+            case R.id.drawer_about:
                 drawerLayout.closeDrawers();
-                appExitHelper.exitDreictly();
+//                appExitHelper.exitDreictly();
+                forward(AboutActivity.class);
                 break;
             default:
                 replaceFragment(v.getId());

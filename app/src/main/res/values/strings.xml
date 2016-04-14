@@ -13,7 +13,7 @@
     <string name="str_reading">阅读</string>
     <string name="str_collect">收藏</string>
     <string name="str_setting">设置</string>
-    <string name="str_exit">退出</string>
+    <string name="str_about">关于</string>
     <!--测试-->
     <string name="str_test_txt">--.--</string>
 
@@ -31,5 +31,7 @@
     <string name="str_no_colllect">暂无收藏</string>
     <string name="notify_add_to_collection">已收藏</string>
     <string name="notify_remove_from_collection">取消收藏</string>
-
+    <!--关于-->
+    <string name="copyright">版权</string>
+    <string name="copyright_brief">此应用禁止用于商业目的，所有数据均来自公开的API,版权属于原作者。</string>
 </resources>

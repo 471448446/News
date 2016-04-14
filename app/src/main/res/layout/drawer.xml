@@ -10,7 +10,7 @@
         android:background="@drawable/background_material"
         android:orientation="vertical"
         android:paddingLeft="@dimen/border_space_sec"
-        android:paddingTop="@dimen/border_space_normal">
+        android:paddingTop="@dimen/drawer_left_head_paddingTop">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
@@ -84,9 +84,9 @@
                 android:text="@string/str_setting" />
 
             <TextView
-                android:id="@+id/drawer_exit"
+                android:id="@+id/drawer_about"
                 style="@style/styleLeftDrawerItemBase"
-                android:text="@string/str_exit" />
+                android:text="@string/str_about" />
 
         </LinearLayout>
     </ScrollView>
