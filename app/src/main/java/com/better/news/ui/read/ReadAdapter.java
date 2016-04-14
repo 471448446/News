@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +39,7 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ReadBean.BooksBean bean=getItem(position);
         if(TextUtils.isEmpty(bean.getEbook_url())){
             Utils.setGone(holder.imgEBook);
@@ -56,7 +55,7 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
         holder.pages.setText(mContent.getString(R.string.str_page,bean.getPages()));
         holder.publisher.setText(mContent.getString(R.string.str_publish, bean.getPublisher()));
 //        Glide.with(mContent).load(bean.getImage()).into(holder.imgBook);
-        ImageUtil.load(mContent,bean.getImage(),holder.imgBook);
+        ImageUtil.load(mContent, bean.getImage(), holder.imgBook);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,13 +63,26 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
             }
         });
         holder.checkBox.setChecked(bean.getIs_collected() == 1 ? true : false);
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if (b) {
+//                    mCache.addToCollection(bean);
+//                } else {
+//                    mCache.execSQL(ReadingTable.deleteCollectionFlag(bean.getTitle()));
+//                    if (isFromCollect){
+//                        mCache.execSQL(ReadingTable.updateCollectionFlag(bean.getTitle(), 0));
+//                        mCache.execSQL(ReadingTable.deleteCollectionFlag(bean.getTitle()));
+//                        mList.remove(position);
+//                        notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//        });
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                bean.setIs_collected(b?1:0);
-                if (b) {
-                    mCache.addToCollection(bean);
-                } else {
+            public void onClick(View view) {
+                if (bean.getIs_collected()==1){
                     mCache.execSQL(ReadingTable.deleteCollectionFlag(bean.getTitle()));
                     if (isFromCollect){
                         mCache.execSQL(ReadingTable.updateCollectionFlag(bean.getTitle(), 0));
@@ -78,6 +90,12 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
                         mList.remove(position);
                         notifyDataSetChanged();
                     }
+                    holder.checkBox.setChecked(false);
+                    bean.setIs_collected(0);
+                }else{
+                    mCache.addToCollection(bean);
+                    holder.checkBox.setChecked(true);
+                    bean.setIs_collected(1);
                 }
             }
         });

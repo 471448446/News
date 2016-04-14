@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.better.news.data.read.ReadBean;
 import com.better.news.db.Cache;
 import com.better.news.db.cache.ReadingCache;
 import com.better.news.http.api.ReadApi;
 import com.better.news.support.C;
-import com.better.news.support.util.Utils;
 import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 
@@ -118,27 +116,27 @@ public class ReadFragment extends SimpleRefreshFragment {
         categroy=getArguments().getString(C.EXTRA_CATEGORY);
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Utils.v("CustomOkHttpClient", "onViewCreated()"+mUrls);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Utils.v("CustomOkHttpClient", "onResume()" + String.valueOf(null==mBean));
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Utils.v("CustomOkHttpClient", "onDestroy()" + mUrls);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Utils.v("CustomOkHttpClient", "onDestroy()" + mUrls);
-    }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        Utils.v("CustomOkHttpClient", "onViewCreated()"+mUrls);
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Utils.v("CustomOkHttpClient", "onResume()" + String.valueOf(null==mBean));
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        Utils.v("CustomOkHttpClient", "onDestroy()" + mUrls);
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Utils.v("CustomOkHttpClient", "onDestroy()" + mUrls);
+//    }
 }
