@@ -1,4 +1,4 @@
-package com.better.news;
+package better.news;
 
 import org.junit.Test;
 

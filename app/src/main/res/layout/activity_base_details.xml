@@ -5,7 +5,7 @@
     android:id="@+id/days_detail_continer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.better.news.ui.days.DaysDetailActivity">
+    tools:context="better.news.ui.days.DaysDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

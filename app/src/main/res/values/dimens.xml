@@ -7,7 +7,7 @@
     <!-- 标题，导航栏 -->
     <dimen name="tab_height">45dip</dimen>
     <dimen name="top_bar_height">45dip</dimen>
-    <dimen name="tool_bar_top_padding">0dp</dimen>
+
     <dimen name="title_back_padding_left">15dp</dimen>
     <dimen name="title_back_padding_right">15dp</dimen>
     <dimen name="title_operation_text_size">17sp</dimen>
