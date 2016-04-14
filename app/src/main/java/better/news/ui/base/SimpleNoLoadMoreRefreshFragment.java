@@ -1,4 +1,4 @@
-package com.better.news.ui.base;
+package better.news.ui.base;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.better.news.R;
+import better.news.R;
 
 /**
  * Created by Better on 2016/3/15.
