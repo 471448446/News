@@ -1,4 +1,4 @@
-package com.better.news.http.api;
+package better.news.http.api;
 
 /**
  * Created by Better on 2016/3/18.
@@ -13,15 +13,15 @@ public class DaysApi {
 
     /**
      * 根据日期返回 文章列表
-     * @param date
-     * @return
+     * @param date 日期
+     * @return 文章
      */
     public static String getBeforeUrl(String date){
         return before+date;
     }
     /**
      *根据文章id查看 网页详情
-     * @param id
+     * @param id story id
      * @return  网页链接
      */
     public static String getDeatilUrl(int id){
