@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import com.better.news.db.Cache;
 import com.better.news.db.coll.NewsCollectCach;
 import com.better.news.ui.base.SimpleNoLoadMoreRefreshFragment;
-import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import com.better.news.ui.news.NewsAdapter;
 
@@ -28,7 +27,7 @@ public class CollectNewsFragment extends SimpleNoLoadMoreRefreshFragment {
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new NewsAdapter(getActivity(), mCache,true);
+        return new NewsAdapter(getActivity(), this,mCache,true);
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.better.news.ui.coll;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.better.news.db.Cache;
 import com.better.news.db.coll.DayCollectCache;
 import com.better.news.ui.base.SimpleNoLoadMoreRefreshFragment;
-import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import com.better.news.ui.days.DaysAdapter;
 
@@ -31,7 +26,7 @@ public class CollectDayFragment extends SimpleNoLoadMoreRefreshFragment {
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new DaysAdapter(getActivity());
+        return new DaysAdapter(getActivity(),this);
     }
 
     @Override

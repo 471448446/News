@@ -3,8 +3,10 @@ package com.better.news.ui.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -21,6 +23,7 @@ import com.better.news.db.table.ScienceTable;
 import com.better.news.support.C;
 import com.better.news.support.sax.RssItem;
 import com.better.news.ui.base.BaseDetailActivity;
+import com.better.news.ui.base.SimpleRefreshFragment;
 
 import butterknife.Bind;
 
@@ -36,28 +39,35 @@ public class DealActivity extends BaseDetailActivity {
     public static void startDealActivity(Activity activity, String url) {
         startDealActivity(activity, "", url);
     }
+
     public static void startDealActivity(Activity activity, String titleName, String url) {
         Intent intent = new Intent(activity, DealActivity.class);
         intent.putExtra(WEBVIEW_TITLE_NAME, titleName);
         intent.putExtra(WEBVIEW_URL, url);
         activity.startActivity(intent);
     }
-    public static void startFromNews(Activity activity,RssItem item){
-        Intent intent = new Intent(activity, DealActivity.class);
+
+    public static void startFromNews(Fragment activity, RssItem item) {
+        Intent intent = new Intent(activity.getActivity(), DealActivity.class);
         intent.putExtra(C.EXTRA_BEAN, item);
-        intent.putExtra(C.EXTRA_MODE,C.MODE_NEWS);
-        activity.startActivity(intent);
-    }
-    public static void startFromScience(Activity activity,ScienceOutBean.ScienceBean bean){
-        Intent intent = new Intent(activity, DealActivity.class);
-        intent.putExtra(C.EXTRA_BEAN, bean);
-        intent.putExtra(C.EXTRA_MODE,C.MODE_SCIENCE);
-        activity.startActivity(intent);
+        intent.putExtra(C.EXTRA_MODE, C.MODE_NEWS);
+//        activity.startActivity(intent);
+        activity.startActivityForResult(intent, SimpleRefreshFragment.Req_Code);
     }
 
-    @Bind(R.id.toolBar) Toolbar toolbar;
-    @Bind(R.id.deal_web_view) WebView webView;
-    @Bind(R.id.web_progress_bar) ProgressBar mProgressBar;
+    public static void startFromScience(Fragment activity, ScienceOutBean.ScienceBean bean) {
+        Intent intent = new Intent(activity.getActivity(), DealActivity.class);
+        intent.putExtra(C.EXTRA_BEAN, bean);
+        intent.putExtra(C.EXTRA_MODE, C.MODE_SCIENCE);
+        activity.startActivityForResult(intent, SimpleRefreshFragment.Req_Code);
+    }
+
+    @Bind(R.id.toolBar)
+    Toolbar toolbar;
+    @Bind(R.id.deal_web_view)
+    WebView webView;
+    @Bind(R.id.web_progress_bar)
+    ProgressBar mProgressBar;
     private String mUrl, mTitleName;
     private RssItem mRssItem;
     private ScienceOutBean.ScienceBean mScenceBean;
@@ -70,7 +80,7 @@ public class DealActivity extends BaseDetailActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal);
         log("标题：" + mTitleName + "DealUrl=" + mUrl);
-        mContainer=findViewById(R.id.deal_continer);
+
         webView.loadUrl(mUrl);
     }
 
@@ -87,10 +97,11 @@ public class DealActivity extends BaseDetailActivity {
 //        });
 //        toolbar.setNavigationIcon(R.drawable.icon_navgation_back_white);
 //        getSupportActionBar().setTitle("");
+        mContainer = findViewById(R.id.deal_continer);
         setBackToolBar(toolbar);
         if (!TextUtils.isEmpty(mTitleName)) {
             toolbar.setTitle(mTitleName);
-        }else{
+        } else {
             toolbar.setTitle("");
         }
         webView.getSettings().setJavaScriptEnabled(true);
@@ -130,7 +141,7 @@ public class DealActivity extends BaseDetailActivity {
         });
     }
 
-        /**
+    /**
      * 有些机子会崩溃
      */
     @Override
@@ -149,41 +160,61 @@ public class DealActivity extends BaseDetailActivity {
         mTitleName = getIntent().getStringExtra(WEBVIEW_TITLE_NAME);
         mUrl = getIntent().getStringExtra(WEBVIEW_URL);
 
-        mMode=getIntent().getIntExtra(C.EXTRA_MODE,C.MODE_DEFAUTT);
-        if (C.MODE_NEWS==mMode){
-            mRssItem= (RssItem) getIntent().getSerializableExtra(C.EXTRA_BEAN);
-            if(null!=mRssItem){
-                mUrl=mRssItem.getLink();
+        mMode = getIntent().getIntExtra(C.EXTRA_MODE, C.MODE_DEFAUTT);
+        if (C.MODE_NEWS == mMode) {
+            mRssItem = (RssItem) getIntent().getSerializableExtra(C.EXTRA_BEAN);
+            if (null != mRssItem) {
+                mUrl = mRssItem.getLink();
             }
-            mNewsCache=new NewsCache(null,null,null);
-        }else if (C.MODE_SCIENCE==mMode){
+            mNewsCache = new NewsCache(null, null, null);
+            isCollected=mRssItem.getIs_collected()==1?true:false;
+        } else if (C.MODE_SCIENCE == mMode) {
             mScenceBean = (ScienceOutBean.ScienceBean) getIntent().getSerializableExtra(C.EXTRA_BEAN);
-            if (null!= mScenceBean){
-                mUrl= mScenceBean.getUrl();
+            if (null != mScenceBean) {
+                mUrl = mScenceBean.getUrl();
             }
-            mScienceCache =new ScienceCache(null,null,null);
+            mScienceCache = new ScienceCache(null, null, null);
+            isCollected=mScenceBean.getIs_collected()==1?true:false;
         }
     }
 
     @Override
+    protected boolean childrenInflateMenu(Menu menu) {
+        if (C.MODE_SCIENCE == mMode || C.MODE_NEWS == mMode) return false;
+        else return true;
+    }
+
+    @Override
     protected void addToCollection() {
-        if (C.MODE_NEWS==mMode){
-            mNewsCache.execSQL(NewsTable.updateCollectionFlag(mRssItem.getTitle(),1));
+        if (C.MODE_NEWS == mMode) {
+            mNewsCache.execSQL(NewsTable.updateCollectionFlag(mRssItem.getTitle(), 1));
             mNewsCache.addToCollection(mRssItem);
-        }else if (C.MODE_SCIENCE==mMode){
-            mScienceCache.execSQL(ScienceTable.updateCollectionFlag(mScenceBean.getTitle(),1));
+            Intent intent = new Intent();
+            intent.putExtra(C.EXTRA_KEY, mRssItem.getTitle());
+            setResult(C.news_collect_add, intent);
+        } else if (C.MODE_SCIENCE == mMode) {
+            mScienceCache.execSQL(ScienceTable.updateCollectionFlag(mScenceBean.getTitle(), 1));
             mScienceCache.addToCollection(mScenceBean);
+            Intent intent = new Intent();
+            intent.putExtra(C.EXTRA_KEY, mScenceBean.getTitle());
+            setResult(C.science_collect_add, intent);
         }
     }
 
     @Override
     protected void removeFromCollection() {
-        if (C.MODE_NEWS==mMode){
+        if (C.MODE_NEWS == mMode) {
             mNewsCache.execSQL(NewsTable.updateCollectionFlag(mRssItem.getTitle(), 0));
             mNewsCache.execSQL(NewsTable.deleteCollectionFlag(mRssItem.getTitle()));
-        }else if (C.MODE_SCIENCE==mMode){
+            Intent intent = new Intent();
+            intent.putExtra(C.EXTRA_KEY, mRssItem.getTitle());
+            setResult(C.news_collect_cancle, intent);
+        } else if (C.MODE_SCIENCE == mMode) {
             mScienceCache.execSQL(ScienceTable.updateCollectionFlag(mScenceBean.getTitle(), 0));
             mScienceCache.execSQL(ScienceTable.deleteCollectionFlag(mScenceBean.getTitle()));
+            Intent intent = new Intent();
+            intent.putExtra(C.EXTRA_KEY, mScenceBean.getTitle());
+            setResult(C.science_collect_cancle, intent);
         }
     }
 }

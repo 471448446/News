@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 
 import com.better.news.R;
 
-import better.lib.recyclerview.RequestType;
-
 /**
  * Created by Better on 2016/3/15.
  */
 public abstract class SimpleRefreshFragment extends BaseListFragment {
+    public static final int Req_Code=1000;
     @Override
     protected View initRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_simplerefresh, container, false);
@@ -29,7 +28,6 @@ public abstract class SimpleRefreshFragment extends BaseListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     protected LinearLayoutManager getLinearLayoutManagerV() {
@@ -37,9 +35,4 @@ public abstract class SimpleRefreshFragment extends BaseListFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         return manager;
     }
-
-//    @Override
-//    protected boolean isNeedLoadMore() {
-//        return true;
-//    }
 }

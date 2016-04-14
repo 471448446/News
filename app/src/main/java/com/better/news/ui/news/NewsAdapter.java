@@ -1,6 +1,7 @@
 package com.better.news.ui.news;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +25,14 @@ import butterknife.ButterKnife;
  * Created by Better on 2016/3/15.
  */
 public class NewsAdapter extends BaseRecyclerViewAdapter<RssItem, NewsAdapter.ViewHolder> {
-    public NewsAdapter(Activity context, Cache<RssItem> cache, boolean isFromCollect) {
-        super(context, cache, isFromCollect);
+
+    public NewsAdapter(Activity context,Fragment fragment, Cache<RssItem> cache, boolean isFromCollect) {
+        super(context,fragment, cache, isFromCollect);
     }
 
-    public NewsAdapter(Activity context, Cache<RssItem> cache) {
-        super(context, cache);
+    public NewsAdapter(Activity context,Fragment fragment, Cache<RssItem> cache) {
+//        super(context, cache);
+        super(context,fragment,cache,false);
     }
 
     @Override
@@ -48,8 +51,7 @@ public class NewsAdapter extends BaseRecyclerViewAdapter<RssItem, NewsAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                DealActivity.startDealActivity(mContent, getItem(position).getLink());
-                DealActivity.startFromNews(mContent, bean);
+                DealActivity.startFromNews(mFragment, bean);
             }
         });
         if (!isFromCollect) {

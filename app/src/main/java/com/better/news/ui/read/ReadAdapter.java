@@ -1,6 +1,7 @@
 package com.better.news.ui.read;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,11 +28,11 @@ import butterknife.ButterKnife;
  */
 public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,ReadAdapter.ViewHolder> {
 
-    public ReadAdapter(Activity context,Cache cache,Boolean isFromCollect) {
-        super(context,cache,isFromCollect);
+    public ReadAdapter(Activity context,Fragment fragment,Cache cache,Boolean isFromCollect) {
+        super(context,fragment,cache,isFromCollect);
     }
-    public ReadAdapter(Activity context,Cache cache) {
-        super(context,cache);
+    public ReadAdapter(Activity context,Fragment fragment,Cache cache) {
+        super(context,fragment,cache,false);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,7 +60,7 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BookDetailActivity.start(mContent, bean);
+                BookDetailActivity.start(mFragment, bean);
             }
         });
         holder.checkBox.setChecked(bean.getIs_collected() == 1 ? true : false);

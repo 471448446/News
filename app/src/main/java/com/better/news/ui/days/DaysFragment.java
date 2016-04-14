@@ -1,14 +1,17 @@
 package com.better.news.ui.days;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
 import com.better.news.data.days.DaysBean;
 import com.better.news.db.Cache;
 import com.better.news.db.cache.DayCache;
+import com.better.news.support.C;
 import com.better.news.support.util.DateUtil;
-import com.better.news.support.util.Utils;
 import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
+
+import java.util.List;
 
 import better.lib.recyclerview.RequestType;
 
@@ -26,13 +29,28 @@ public class DaysFragment extends SimpleRefreshFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (Req_Code != requestCode || null == data) return;
+        String title=data.getStringExtra(C.EXTRA_KEY);
+        boolean collect=resultCode==C.day_collect_add?true:false;
+        List<DaysBean.StoriesBean> list=adapter.getList();
+        for (DaysBean.StoriesBean item:list){
+            if (title.equals(item.getTitle())){
+                item.setIsColleted(collect==true?1:0);
+            }
+        }
+        adapter.reSetList(list);
+    }
+
+    @Override
     protected RecyclerView.LayoutManager getLayoutManager() {
         return getLinearLayoutManagerV();
     }
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new DaysAdapter(getActivity());
+        return new DaysAdapter(getActivity(),this);
     }
 
     @Override

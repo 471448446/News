@@ -1,8 +1,8 @@
 package com.better.news.ui.days;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.better.news.MainApp;
@@ -18,24 +18,21 @@ import com.better.news.support.C;
 import com.better.news.support.util.ImageUtil;
 import com.better.news.support.util.JsonUtils;
 import com.better.news.ui.base.DetailImageActivity;
+import com.better.news.ui.base.SimpleRefreshFragment;
 
 import okhttp3.Call;
 
 public class DaysDetailActivity extends DetailImageActivity {
 
-//    @Bind(R.id.days_detail_web)
-//    WebView webView;
-//    @Bind(R.id.days_detail_img)
-//    ImageView image;
     private int id;
     private DaysBean.StoriesBean mIntentStories;
     private StoryDetailBean bean;
     private DayCache cache;
 
-    public static void start(Activity activity, DaysBean.StoriesBean bean) {
-        Intent intent = new Intent(activity, DaysDetailActivity.class);
+    public static void start(Fragment activity, DaysBean.StoriesBean bean) {
+        Intent intent = new Intent(activity.getActivity(), DaysDetailActivity.class);
         intent.putExtra(C.EXTRA_KEY, bean);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, SimpleRefreshFragment.Req_Code);
     }
 
     @Override
@@ -75,21 +72,23 @@ public class DaysDetailActivity extends DetailImageActivity {
         }, waitPolicy);
     }
 
-
-    @Override
-    protected void removeFromCollection() {
-        DayCache.execSQL(DayTable.updateCollectionFlag(mIntentStories.getTitle(), 0));
-        DayCache.execSQL(DayTable.deleteCollectionFlag(mIntentStories.getTitle()));
-        setResult(C.COLLEXT_NO);
-    }
-
     @Override
     protected void addToCollection() {
         DayCache.execSQL(DayTable.updateCollectionFlag(mIntentStories.getTitle(), 1));
         cache.addToCollection(mIntentStories);
-        setResult(C.COLLECT_YES);
+//        setResult(C.COLLECT_YES);
+        Intent intent = new Intent();
+        intent.putExtra(C.EXTRA_KEY, mIntentStories.getTitle());
+        setResult(C.day_collect_add, intent);
     }
-
+    @Override
+       protected void removeFromCollection() {
+        DayCache.execSQL(DayTable.updateCollectionFlag(mIntentStories.getTitle(), 0));
+        DayCache.execSQL(DayTable.deleteCollectionFlag(mIntentStories.getTitle()));
+        Intent intent = new Intent();
+        intent.putExtra(C.EXTRA_KEY, mIntentStories.getTitle());
+        setResult(C.day_collect_cancle, intent);
+    }
     @Override
     protected void getArgs() {
         super.getArgs();

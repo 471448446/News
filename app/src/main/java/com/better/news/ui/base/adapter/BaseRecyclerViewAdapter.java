@@ -1,6 +1,7 @@
 package com.better.news.ui.base.adapter;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
 import com.better.news.db.Cache;
@@ -15,22 +16,60 @@ import java.util.List;
 public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     protected List<E> mList = new ArrayList<>();
     protected Activity mContent;
+    protected Fragment mFragment;
 
     protected Cache<E> mCache;
     protected boolean isFromCollect;
 
+    /**
+     * 一般list
+     * @param context
+     */
     public BaseRecyclerViewAdapter(Activity context) {
         this.mContent = context;
     }
 
+    /**
+     * 一般list 需要用Fragment的
+     * @param context
+     * @param fragment
+     */
+    public BaseRecyclerViewAdapter(Activity context,Fragment fragment) {
+        this.mContent = context;
+        this.mFragment=fragment;
+    }
+
+    /**
+     * 需要做缓存的list
+     * @param context
+     * @param cache
+     */
     public BaseRecyclerViewAdapter(Activity context, Cache<E> cache) {
         this(context, cache, false);
     }
 
+    /**
+     * 需要做缓存的list  不用到fragment
+     * @param context
+     * @param cache
+     * @param isFromeCollect
+     */
     public BaseRecyclerViewAdapter(Activity context, Cache<E> cache, Boolean isFromeCollect) {
+        this(context,null,cache,isFromeCollect);
+    }
+
+    /**
+     * 需要做缓存的list切用到fragment
+     * @param context
+     * @param fragment
+     * @param cache
+     * @param isFromCollect
+     */
+    public BaseRecyclerViewAdapter(Activity context,Fragment fragment, Cache<E> cache, Boolean isFromCollect) {
         this.mContent = context;
         this.mCache = cache;
-        this.isFromCollect = isFromeCollect;
+        this.isFromCollect = isFromCollect;
+        this.mFragment=fragment;
     }
 
     @Override
@@ -61,7 +100,14 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
         this.mList.addAll(list);
         notifyDataSetChanged();
     }
+    public void reSetList(List<E> list){
+        this.mList=list;
+        notifyDataSetChanged();
+    }
 
+    public List<E> getList(){
+        return this.mList;
+    }
     protected E getItem(int position) {
         return mList.get(position);
     }

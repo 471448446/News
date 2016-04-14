@@ -18,8 +18,8 @@ import org.json.JSONObject;
 import okhttp3.Call;
 
 public class ScienceDetailsActivity extends DetailImageActivity {
-    private String loadUrl;
 
+    private String loadUrl;
     /**
      *
      * @param activity

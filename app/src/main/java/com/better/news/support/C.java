@@ -28,4 +28,13 @@ public interface C {
     int MODE_DAY=MODE_NEWS+1;
     int MODE_SCIENCE=MODE_DAY+1;
     int MODE_READING=MODE_SCIENCE+1;
+    //
+    int news_collect_add=10;
+    int news_collect_cancle=news_collect_add+1;
+    int science_collect_add=news_collect_cancle+1;
+    int science_collect_cancle=science_collect_add+1;
+    int day_collect_add=science_collect_cancle+1;
+    int day_collect_cancle=day_collect_add+1;
+    int read_collect_add=day_collect_cancle+1;
+    int read_collect_cancle=read_collect_add+1;
 }

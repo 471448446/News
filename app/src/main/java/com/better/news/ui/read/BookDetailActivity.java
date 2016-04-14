@@ -1,9 +1,7 @@
 package com.better.news.ui.read;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -12,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.better.news.R;
@@ -23,6 +20,7 @@ import com.better.news.http.api.ReadApi;
 import com.better.news.support.C;
 import com.better.news.support.util.ImageUtil;
 import com.better.news.ui.base.BaseDetailActivity;
+import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.TabPagerAdapter;
 
 import butterknife.Bind;
@@ -30,7 +28,6 @@ import butterknife.Bind;
 public class BookDetailActivity extends BaseDetailActivity {
     private ReadBean.BooksBean mBean;
     private TabPagerAdapter mAdapter;
-    private View mContainer;
 
     @Bind(R.id.read_detail_toolbar) Toolbar toolbar;
     @Bind(R.id.read_detail_img_book_img) ImageView img;
@@ -39,26 +36,26 @@ public class BookDetailActivity extends BaseDetailActivity {
 
     private ReadingCache mReadingCache;
 
-    public static void start(Activity activity, ReadBean.BooksBean bean) {
-        Intent intent = new Intent(activity, BookDetailActivity.class);
+    public static void start(Fragment activity, ReadBean.BooksBean bean) {
+        Intent intent = new Intent(activity.getActivity(), BookDetailActivity.class);
         intent.putExtra(C.EXTRA_KEY, bean);
-        activity.startActivity(intent);
-
+        activity.startActivityForResult(intent, SimpleRefreshFragment.Req_Code);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_book_detail);
-        mContainer = findViewById(R.id.book_detail_continer);
+
     }
 
     @Override
     protected void initData() {
         super.initData();
 //        initTabSlide(R.id.simpleTabSlide_tabLayout, R.id.simpleTabSlide_Pager);
+        mContainer = findViewById(R.id.book_detail_continer);
         setBackToolBar(toolbar).setTitle(mBean.getTitle());
-        toolbar.setOnMenuItemClickListener(menuItemClickListener);
+//        toolbar.setOnMenuItemClickListener(menuItemClickListener);
         viewPager.setAdapter(getPagerAdapter());
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -90,46 +87,47 @@ public class BookDetailActivity extends BaseDetailActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected boolean childrenInflateMenu(Menu menu) {
         if (null != mBean && !TextUtils.isEmpty(mBean.getEbook_url())) {
             getMenuInflater().inflate(R.menu.read_detail_menu, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_share, menu);
         }
-        updateCollectionMenu(menu.findItem(R.id.menu_collect));
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    protected boolean childrenInflateMenu() {
         return true;
     }
 
-    private Toolbar.OnMenuItemClickListener menuItemClickListener = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_read_ebook:
-//                    DealActivity.startDealActivity(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
-                    ReadBookActivity.start(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
-                    break;
-//                case R.id.menu_collect:
-//                    if (isCollected) {
-//                        removeFromCollection();
-//                        isCollected = false;
-//                        updateCollectionMenu(item);
-//                        Snackbar.make(mContainer, R.string.notify_remove_from_collection, Snackbar.LENGTH_SHORT).show();
-//                    } else {
-//                        addToCollection();
-//                        isCollected = true;
-//                        updateCollectionMenu(item);
-//                        Snackbar.make(mContainer, R.string.notify_add_to_collection, Snackbar.LENGTH_SHORT).show();
-//                    }
-//                    break;
-            }
-            return true;
+    @Override
+    public void onMenuSelected(MenuItem item) {
+        super.onMenuSelected(item);
+        if(R.id.action_read_ebook==item.getItemId()){
+            ReadBookActivity.start(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
         }
-    };
+    }
+    //    private Toolbar.OnMenuItemClickListener menuItemClickListener = new Toolbar.OnMenuItemClickListener() {
+//        @Override
+//        public boolean onMenuItemClick(MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.action_read_ebook:
+////                    DealActivity.startDealActivity(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
+//                    ReadBookActivity.start(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
+//                    break;
+////                case R.id.menu_collect:
+////                    if (isCollected) {
+////                        removeFromCollection();
+////                        isCollected = false;
+////                        updateCollectionMenu(item);
+////                        Snackbar.make(mContiner, R.string.notify_remove_from_collection, Snackbar.LENGTH_SHORT).show();
+////                    } else {
+////                        addToCollection();
+////                        isCollected = true;
+////                        updateCollectionMenu(item);
+////                        Snackbar.make(mContiner, R.string.notify_add_to_collection, Snackbar.LENGTH_SHORT).show();
+////                    }
+////                    break;
+//            }
+//            return true;
+//        }
+//    };
 
     @Override
     protected void getArgs() {
@@ -138,25 +136,19 @@ public class BookDetailActivity extends BaseDetailActivity {
         isCollected = mBean.getIs_collected() == 1 ? true : false;
     }
 
-//    protected boolean isCollected;
-
-//    protected void updateCollectionMenu(MenuItem item) {
-//        if (isCollected) {
-//            item.setIcon(R.drawable.ic_star_collect_24dp);
-//        } else {
-//            item.setIcon(R.drawable.ic_star_normal_24dp);
-//        }
-//    }
-
     protected void addToCollection() {
         mReadingCache.addToCollection(mBean);
         mReadingCache.execSQL(ReadingTable.updateCollectionFlag(mBean.getTitle(), 1));
-        Snackbar.make(mContainer, R.string.notify_remove_from_collection, Snackbar.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(C.EXTRA_KEY, mBean.getTitle());
+        setResult(C.read_collect_add, intent);
     }
 
     protected void removeFromCollection() {
         mReadingCache.execSQL(ReadingTable.updateCollectionFlag(mBean.getTitle(), 0));
         mReadingCache.execSQL(ReadingTable.deleteCollectionFlag(mBean.getTitle()));
-        Snackbar.make(mContainer, R.string.notify_add_to_collection, Snackbar.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(C.EXTRA_KEY, mBean.getTitle());
+        setResult(C.read_collect_cancle, intent);
     }
 }

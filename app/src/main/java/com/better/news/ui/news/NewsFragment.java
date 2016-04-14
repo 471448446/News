@@ -1,49 +1,60 @@
 package com.better.news.ui.news;
 
+import android.content.Intent;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.better.news.R;
 import com.better.news.db.Cache;
 import com.better.news.db.cache.NewsCache;
-import com.better.news.http.HttpUtil;
-import com.better.news.http.callback.StringCallBack;
 import com.better.news.support.C;
-import com.better.news.support.sax.RssFeed;
-import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
+import com.better.news.support.sax.RssItem;
 import com.better.news.ui.base.SimpleRefreshFragment;
-import com.better.news.support.util.Utils;
+import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 import better.lib.recyclerview.RequestType;
-import okhttp3.Call;
+
+//import android.support.v4.app.Fragment;
 
 /**
  * Created by Better on 2016/3/15.
  */
 public class NewsFragment extends SimpleRefreshFragment {
-    private static final String TAG_URL="tag_url";
+    private static final String TAG_URL = "tag_url";
     private String url;
     private String category;
-    public static Fragment newInstace(String url,String category){
-        NewsFragment fragment=new NewsFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString(TAG_URL,url);
-        bundle.putString(C.EXTRA_CATEGORY,category);
+
+    public static Fragment newInstace(String url, String category) {
+        NewsFragment fragment = new NewsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(TAG_URL, url);
+        bundle.putString(C.EXTRA_CATEGORY, category);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (Req_Code != requestCode || null == data) return;
+        String title=data.getStringExtra(C.EXTRA_KEY);
+        boolean collect=resultCode==C.news_collect_add?true:false;
+        List<RssItem> list=adapter.getList();
+        for (RssItem item:list){
+            if (title.equals(item.getTitle())){
+                item.setIs_collected(collect==true?1:0);
+            }
+        }
+        adapter.reSetList(list);
+    }
+
+    @Override
     protected void getArgs() {
-        url=getArguments().getString(TAG_URL);
-        category= getArguments().getString(C.EXTRA_CATEGORY);
+        url = getArguments().getString(TAG_URL);
+        category = getArguments().getString(C.EXTRA_CATEGORY);
     }
 
     @Override
@@ -60,12 +71,12 @@ public class NewsFragment extends SimpleRefreshFragment {
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new NewsAdapter(getActivity(),mCache);
+        return new NewsAdapter(getActivity(), this, mCache);
     }
 
     @Override
     protected Cache getCache() {
-        return new NewsCache(mHandler,category,url);
+        return new NewsCache(mHandler, category, url);
     }
 
     @Override

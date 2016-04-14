@@ -1,23 +1,21 @@
 package com.better.news.ui.science;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
-import com.better.news.R;
 import com.better.news.data.sicence.ScienceOutBean;
 import com.better.news.db.Cache;
 import com.better.news.db.cache.ScienceCache;
-import com.better.news.http.HttpUtil;
 import com.better.news.http.api.ScienceApi;
-import com.better.news.http.callback.StringCallBack;
 import com.better.news.support.C;
-import com.better.news.support.util.JsonUtils;
 import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 
+import java.util.List;
+
 import better.lib.recyclerview.RequestType;
-import okhttp3.Call;
 
 /**
  * Created by Better on 2016/3/20.
@@ -33,6 +31,21 @@ public class ScienceFragment extends SimpleRefreshFragment{
     private String url,category;
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (Req_Code != requestCode || null == data) return;
+        String title=data.getStringExtra(C.EXTRA_KEY);
+        boolean collect=resultCode==C.science_collect_add?true:false;
+        List<ScienceOutBean.ScienceBean> list=adapter.getList();
+        for (ScienceOutBean.ScienceBean item:list){
+            if (title.equals(item.getTitle())){
+                item.setIs_collected(collect==true?1:0);
+            }
+        }
+        adapter.reSetList(list);
+    }
+
+    @Override
     protected Object getLastStartId() {
         return null;
     }
@@ -44,7 +57,7 @@ public class ScienceFragment extends SimpleRefreshFragment{
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new ScienceAdapter(getActivity());
+        return new ScienceAdapter(getActivity(),this);
     }
 
     @Override

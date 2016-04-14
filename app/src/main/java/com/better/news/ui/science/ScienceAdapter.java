@@ -1,6 +1,7 @@
 package com.better.news.ui.science;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.better.news.data.sicence.ScienceOutBean;
 import com.better.news.support.util.ImageUtil;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import com.better.news.ui.common.DealActivity;
-import com.bumptech.glide.Glide;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
  */
 public class ScienceAdapter extends BaseRecyclerViewAdapter<ScienceOutBean.ScienceBean, ScienceAdapter.ViewHolder> {
 
-    public ScienceAdapter(Activity context) {
-        super(context);
+    public ScienceAdapter(Activity context,Fragment fragment) {
+        super(context,fragment);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ScienceAdapter extends BaseRecyclerViewAdapter<ScienceOutBean.Scien
             public void onClick(View view) {
 //                ScienceDetailsActivity.start(mContent,bean.getResource_url());
 //                DealActivity.startDealActivity(mContent,bean.getUrl());
-                DealActivity.startFromScience(mContent,bean);
+                DealActivity.startFromScience(mFragment,bean);
             }
         });
     }

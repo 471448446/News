@@ -1,6 +1,7 @@
 package com.better.news.ui.days;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,17 +12,15 @@ import android.widget.TextView;
 
 import com.better.news.R;
 import com.better.news.data.days.DaysBean;
-import com.better.news.db.Cache;
 import com.better.news.support.util.ImageUtil;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
-import com.bumptech.glide.Glide;
 
 /**
  * Created by Better on 2016/3/18.
  */
 public class DaysAdapter extends BaseRecyclerViewAdapter<DaysBean.StoriesBean,DaysAdapter.ViewHolder> {
-    public DaysAdapter(Activity context) {
-        super(context);
+    public DaysAdapter(Activity context,Fragment fragment) {
+        super(context,fragment);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class DaysAdapter extends BaseRecyclerViewAdapter<DaysBean.StoriesBean,Da
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DaysDetailActivity.start(mContent,bean);
+                DaysDetailActivity.start(mFragment,bean);
             }
         });
     }

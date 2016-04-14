@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import com.better.news.db.Cache;
 import com.better.news.db.coll.ScienceCollectCache;
 import com.better.news.ui.base.SimpleNoLoadMoreRefreshFragment;
-import com.better.news.ui.base.SimpleRefreshFragment;
 import com.better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import com.better.news.ui.science.ScienceAdapter;
 
@@ -27,7 +26,7 @@ public class CollectScienceFragment extends SimpleNoLoadMoreRefreshFragment {
 
     @Override
     protected BaseRecyclerViewAdapter getAdapter() {
-        return new ScienceAdapter(getActivity());
+        return new ScienceAdapter(getActivity(),this);
     }
 
     @Override

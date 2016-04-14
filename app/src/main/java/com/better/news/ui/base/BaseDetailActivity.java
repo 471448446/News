@@ -16,13 +16,13 @@ public abstract class BaseDetailActivity extends BaseActivity{
     protected View mContainer;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!childrenInflateMenu()){
-            getMenuInflater().inflate(R.menu.menu_share,menu);
-            updateCollectionMenu(menu.findItem(R.id.menu_collect));
+        if (!childrenInflateMenu(menu)){
+            getMenuInflater().inflate(R.menu.menu_share, menu);
         }
+        updateCollectionMenu(menu.findItem(R.id.menu_collect));
         return super.onCreateOptionsMenu(menu);
     }
-    protected boolean childrenInflateMenu(){
+    protected boolean childrenInflateMenu(Menu menu){
         return false;
     }
     @Override
@@ -40,7 +40,16 @@ public abstract class BaseDetailActivity extends BaseActivity{
               if (null!=mContainer) Snackbar.make(mContainer, R.string.notify_add_to_collection, Snackbar.LENGTH_SHORT).show();
             }
         }
+        onMenuSelected(item);
         return true;
+    }
+
+    /**
+     * 子类 新增的Item
+     * @param item
+     */
+    public void onMenuSelected(MenuItem item){
+
     }
 
     protected void updateCollectionMenu(MenuItem item){
