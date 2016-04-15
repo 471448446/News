@@ -4,29 +4,31 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
-import better.news.db.Cache;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import better.news.db.Cache;
 /**
- * Created by Better on 2016/3/15.
+ * Des  RecyclerView Adapter 基类 子类需要重写 onBindViewHolder onCreateViewHolder<br>
  * thk http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0804/3259.html
+ * 动画 http://www.tqcto.com/article/mobile/138414.html
+ * Created by Better on 2016/4/15 10:26.
  */
 public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     protected List<E> mList = new ArrayList<>();
-    protected Activity mContent;
+    protected Activity mContext;
     protected Fragment mFragment;
 
     protected Cache<E> mCache;
     protected boolean isFromCollect;
 
+    protected boolean isScrollToTop;//Item滑动动画
     /**
      * 一般list
      * @param context
      */
     public BaseRecyclerViewAdapter(Activity context) {
-        this.mContent = context;
+        this.mContext = context;
     }
 
     /**
@@ -35,7 +37,7 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
      * @param fragment
      */
     public BaseRecyclerViewAdapter(Activity context,Fragment fragment) {
-        this.mContent = context;
+        this.mContext = context;
         this.mFragment=fragment;
     }
 
@@ -66,7 +68,7 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
      * @param isFromCollect
      */
     public BaseRecyclerViewAdapter(Activity context,Fragment fragment, Cache<E> cache, Boolean isFromCollect) {
-        this.mContent = context;
+        this.mContext = context;
         this.mCache = cache;
         this.isFromCollect = isFromCollect;
         this.mFragment=fragment;
@@ -75,6 +77,16 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(T holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.itemView.clearAnimation();
+    }
+
+    public void setIsScrollToTop(boolean isScrollToTop) {
+        this.isScrollToTop = isScrollToTop;
     }
 
     /**
@@ -87,7 +99,7 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
         this.mList.clear();
         this.mList.addAll(list);
         notifyDataSetChanged();
-//        Utils.toastShort(mContent,"加载了数据"+list.size());
+//        Utils.toastShort(mContext,"加载了数据"+list.size());
     }
 
     /**

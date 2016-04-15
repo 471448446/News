@@ -21,6 +21,6 @@ public class SplashActivity extends BaseActivity {
                 forward(MainActivity.class);
                 finish();
             }
-        },1500);
+        },1000);
     }
 }

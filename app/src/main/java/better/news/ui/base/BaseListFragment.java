@@ -32,6 +32,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
     protected BRecyclerView mRecyclerView;
     protected HeaderViewProxyRecyclerAdapter mHeadAdapter;
     protected BaseRecyclerViewAdapter adapter;
+    protected boolean isLoadingBottom;//避免上一次还在加载时又触发loadingMore，本次需求是这样的，loadingMore失败时不改变此值只有加载成功后才修改此值
 
     protected abstract Object getLastStartId();//id&String
 
@@ -71,10 +72,24 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
             mRecyclerView.addOnScrollListener(new BRecyclerOnScrollListener() {
                 @Override
                 public void onBottom() {
-                    asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
+                    if (!isLoadingBottom){
+                        isLoadingBottom=true;
+                        asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
+                    }
                 }
             });
         }
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy>0){
+                    adapter.setIsScrollToTop(false);
+                }else{
+                    adapter.setIsScrollToTop(true);
+                }
+            }
+        });
 
         mRecyclerView.setLayoutManager(getLayoutManager());
         mRecyclerView.setAdapter(mHeadAdapter);
@@ -137,6 +152,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 if (null != baseAdapter) baseAdapter.addDownData(list);
                 break;
             case DATA_REQUEST_UP_REFRESH:
+                isLoadingBottom=false;
                 if (mRecyclerView.isNeedEmptyView())
                     Utils.setGone(mRecyclerView.getEmptyViewProxy().getProxyView());
                 if (isEmpty)

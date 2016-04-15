@@ -32,7 +32,7 @@ public abstract class DetailImageActivity extends BaseDetailActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_details);
+        setContentView(R.layout.activity_base_details_image);
         mContainer=findViewById(R.id.days_detail_continer);
     }
 

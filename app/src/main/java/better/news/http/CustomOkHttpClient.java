@@ -3,19 +3,18 @@ package better.news.http;
 import android.os.Handler;
 import android.os.Looper;
 
-import better.news.http.callback.CallBack;
-import better.news.support.util.Utils;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import better.lib.waitpolicy.WaitPolicy;
+import better.news.http.callback.CallBack;
+import better.news.support.util.Utils;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.FormBody;
 
 
 /**
@@ -77,7 +76,7 @@ public class CustomOkHttpClient {
      * @param waitPolicy
      */
     public void sendRequest(final Request request, final CallBack callBack, final WaitPolicy waitPolicy) {
-        Utils.v(TAG,"执行请求 "+request.url());
+        Utils.d(TAG,"执行请求 "+request.url());
         mDefaultClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

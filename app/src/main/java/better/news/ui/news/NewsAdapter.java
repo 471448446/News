@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import better.news.support.sax.RssItem;
 import better.news.support.util.Utils;
 import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import better.news.ui.common.DealActivity;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -44,6 +44,11 @@ public class NewsAdapter extends BaseRecyclerViewAdapter<RssItem, NewsAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        if (isScrollToTop) {//根据滑动方向设置动画
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_top_anim));
+        } else {
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_bottom_anim));
+        }
         final RssItem bean = mList.get(position);
         holder.tvTitle.setText(bean.getTitle());
         holder.tvDes.setText(bean.getDescription());

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +41,11 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        if (isScrollToTop) {//根据滑动方向设置动画
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_down_right));
+        } else {
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_up_right));
+        }
         final ReadBean.BooksBean bean=getItem(position);
         if(TextUtils.isEmpty(bean.getEbook_url())){
             Utils.setGone(holder.imgEBook);
@@ -48,14 +54,14 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean,Read
         }
         holder.title.setText(bean.getTitle());
         if(null!=bean.getAuthor()&&!bean.getAuthor().isEmpty()){
-            holder.auth.setText(mContent.getString(R.string.str_auth, bean.getAuthor().get(0)));
+            holder.auth.setText(mContext.getString(R.string.str_auth, bean.getAuthor().get(0)));
         }else{
             Utils.setGone(holder.auth);
         }
-        holder.pages.setText(mContent.getString(R.string.str_page,bean.getPages()));
-        holder.publisher.setText(mContent.getString(R.string.str_publish, bean.getPublisher()));
-//        Glide.with(mContent).load(bean.getImage()).into(holder.imgBook);
-        ImageUtil.load(mContent, bean.getImage(), holder.imgBook);
+        holder.pages.setText(mContext.getString(R.string.str_page,bean.getPages()));
+        holder.publisher.setText(mContext.getString(R.string.str_publish, bean.getPublisher()));
+//        Glide.with(mContext).load(bean.getImage()).into(holder.imgBook);
+        ImageUtil.load(mContext, bean.getImage(), holder.imgBook);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

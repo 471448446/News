@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,17 +35,22 @@ public class ScienceAdapter extends BaseRecyclerViewAdapter<ScienceOutBean.Scien
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (isScrollToTop) {//根据滑动方向设置动画
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_top_anim));
+        } else {
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_bottom_anim));
+        }
         final ScienceOutBean.ScienceBean bean = getItem(position);
-//        Glide.with(mContent).load(bean.getSmall_image()).into(holder.imageView);
-        ImageUtil.load(mContent,bean.getSmall_image(),holder.imageView);
+//        Glide.with(mContext).load(bean.getSmall_image()).into(holder.imageView);
+        ImageUtil.load(mContext,bean.getSmall_image(),holder.imageView);
         holder.titel.setText(bean.getTitle());
         holder.time.setText(bean.getDate_created());
         holder.content.setText(bean.getSummary());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ScienceDetailsActivity.start(mContent,bean.getResource_url());
-//                DealActivity.startDealActivity(mContent,bean.getUrl());
+//                ScienceDetailsActivity.start(mContext,bean.getResource_url());
+//                DealActivity.startDealActivity(mContext,bean.getUrl());
                 DealActivity.startFromScience(mFragment,bean);
             }
         });

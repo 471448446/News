@@ -1,12 +1,10 @@
 package better.news.ui.days;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import better.news.MainApp;
-import better.news.R;
 import better.news.data.days.DaysBean;
 import better.news.data.days.StoryDetailBean;
 import better.news.db.cache.DayCache;
@@ -19,7 +17,6 @@ import better.news.support.util.ImageUtil;
 import better.news.support.util.JsonUtils;
 import better.news.ui.base.DetailImageActivity;
 import better.news.ui.base.SimpleRefreshFragment;
-
 import okhttp3.Call;
 
 public class DaysDetailActivity extends DetailImageActivity {
@@ -36,9 +33,8 @@ public class DaysDetailActivity extends DetailImageActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_days_detail);
+    protected void initData() {
+        super.initData();
         if (null == mIntentStories || TextUtils.isEmpty(mIntentStories.getBody())) {
             asyncDetail();
         } else {
@@ -47,7 +43,6 @@ public class DaysDetailActivity extends DetailImageActivity {
         }
         cache = new DayCache(null);
     }
-
 
     @Override
     protected void asyncDetail() {

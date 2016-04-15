@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,11 +33,16 @@ public class DaysAdapter extends BaseRecyclerViewAdapter<DaysBean.StoriesBean,Da
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (isScrollToTop) {//根据滑动方向设置动画
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_top_anim));
+        } else {
+            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.item_in_bottom_anim));
+        }
         final DaysBean.StoriesBean bean=mList.get(position);
         holder.tvTitle.setText(bean.getTitle());
         if(null!=bean.getImages()&&!TextUtils.isEmpty(bean.getImages().get(0))){
-//            Glide.with(mContent).load(bean.getImages().get(0)).into(holder.img);
-            ImageUtil.load(mContent,bean.getImages().get(0),holder.img);
+//            Glide.with(mContext).load(bean.getImages().get(0)).into(holder.img);
+            ImageUtil.load(mContext,bean.getImages().get(0),holder.img);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
