@@ -25,6 +25,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import better.lib.utils.BaseUtils;
 import better.news.MainApp;
+import better.news.R;
 import better.news.support.Setting;
 import better.news.support.sax.RssFeed;
 import better.news.support.sax.RssHandlerPlus;
@@ -34,8 +35,10 @@ import better.news.support.sax.RssHandlerPlus;
  */
 public class Utils extends BaseUtils {
 
-
-
+    public static String getExceptionMsg(Exception e){
+        if (null==e)return MainApp.getInstance().getString(R.string.str_loading_footer_all);
+        else return e.getMessage();
+    }
     /**
      * 返回Rss
      * @param response

@@ -1,5 +1,6 @@
 package better.news.ui.read;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,19 +23,28 @@ import better.news.support.util.ImageUtil;
 import better.news.ui.base.BaseDetailActivity;
 import better.news.ui.base.SimpleRefreshFragment;
 import better.news.ui.base.adapter.TabPagerAdapter;
-
 import butterknife.Bind;
 
 public class BookDetailActivity extends BaseDetailActivity {
     private ReadBean.BooksBean mBean;
     private TabPagerAdapter mAdapter;
 
-    @Bind(R.id.read_detail_toolbar) Toolbar toolbar;
-    @Bind(R.id.read_detail_img_book_img) ImageView img;
-    @Bind(R.id.simpleTabSlide_tabLayout) TabLayout tabLayout;
-    @Bind(R.id.simpleTabSlide_Pager) ViewPager viewPager;
+    @Bind(R.id.read_detail_toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.read_detail_img_book_img)
+    ImageView img;
+    @Bind(R.id.simpleTabSlide_tabLayout)
+    TabLayout tabLayout;
+    @Bind(R.id.simpleTabSlide_Pager)
+    ViewPager viewPager;
 
     private ReadingCache mReadingCache;
+
+    public static void start(Activity activity, ReadBean.BooksBean bean) {
+        Intent intent = new Intent(activity, BookDetailActivity.class);
+        intent.putExtra(C.EXTRA_KEY, bean);
+        activity.startActivity(intent);
+    }
 
     public static void start(Fragment activity, ReadBean.BooksBean bean) {
         Intent intent = new Intent(activity.getActivity(), BookDetailActivity.class);
@@ -99,7 +109,7 @@ public class BookDetailActivity extends BaseDetailActivity {
     @Override
     public void onMenuSelected(MenuItem item) {
         super.onMenuSelected(item);
-        if(R.id.action_read_ebook==item.getItemId()){
+        if (R.id.action_read_ebook == item.getItemId()) {
             ReadBookActivity.start(BookDetailActivity.this, ReadApi.getReadEBookUrl(mBean.getEbook_url()));
         }
     }

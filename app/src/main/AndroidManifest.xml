@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.TransparentNoActionBar"></activity>
+            android:theme="@style/AppTheme.TransparentNoActionBar" />
         <activity android:name=".ui.common.DealActivity" />
         <activity android:name=".ui.days.DaysDetailActivity" />
         <activity android:name=".ui.science.ScienceDetailsActivity" />
@@ -36,8 +36,10 @@
         <activity
             android:name=".ui.setting.SettingActivity"
             android:theme="@style/style_setting" />
-        <activity android:name=".ui.about.AboutActivity"
-            android:theme="@style/style_setting"/>
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:theme="@style/style_setting" />
+        <activity android:name=".ui.read.search.SearchBookActivity"></activity>
     </application>
 
 </manifest>

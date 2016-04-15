@@ -36,4 +36,7 @@
     <color name="colorListItemSimple">#FAFAFA</color>
     <color name="colorListItemSimplePress">#F0EBEB</color>
     <!-- 需要分白天黑夜的 ===========e===========-->
+
+    <color name="color_yellow">#f69603</color>
+    <color name="color_yellow_press">#F8B349</color>
 </resources>

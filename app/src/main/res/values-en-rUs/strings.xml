@@ -29,4 +29,7 @@
     <!--关于-->
     <string name="copyright">CopyRight</string>
     <string name="copyright_brief">This application is prohibited for commercial purposes, all of the data from the open API, the copyright belongs to the original author.</string>
+
+    <string name="str_cancel">Cancel</string>
+    <string name="str_confirm">Comfirm</string>
 </resources>

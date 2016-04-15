@@ -11,7 +11,6 @@
         android:paddingBottom="@dimen/border_space_sec"
         android:paddingRight="@dimen/border_space_sec">
 
-
         <ImageView
             android:id="@+id/item_read_image"
             android:layout_width="match_parent"
@@ -22,62 +21,69 @@
             android:layout_weight="2"
             android:src="@drawable/icon_downloading" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/border_space_sec">
+            android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/item_read_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@string/str_test_txt"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/txt_size_max" />
+                android:orientation="vertical"
+                android:paddingTop="@dimen/border_space_sec">
 
-            <TextView
-                android:id="@+id/item_read_auth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/border_space_small"
-                android:text="@string/str_test_txt"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/txt_size_small" />
+                <TextView
+                    android:id="@+id/item_read_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/str_test_txt"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/txt_size_max" />
 
-            <TextView
-                android:id="@+id/item_read_pages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/border_space_small"
-                android:paddingTop="@dimen/border_space_small"
-                android:text="@string/str_test_txt"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/txt_size_small" />
+                <TextView
+                    android:id="@+id/item_read_auth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/border_space_small"
+                    android:text="@string/str_test_txt"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/txt_size_small" />
 
-            <TextView
-                android:id="@+id/item_read_publisher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/border_space_small"
-                android:text="@string/str_test_txt"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/txt_size_14" />
+                <TextView
+                    android:id="@+id/item_read_pages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/border_space_small"
+                    android:paddingTop="@dimen/border_space_small"
+                    android:text="@string/str_test_txt"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/txt_size_small" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/item_read_publisher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/border_space_small"
+                    android:text="@string/str_test_txt"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/txt_size_14" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/border_space_small"
-                android:orientation="horizontal">
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingTop="@dimen/border_space_sec">
 
                 <ImageView
                     android:id="@+id/item_read_ebook"
                     android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_ebook_blue" />
 
                 <CheckBox
@@ -85,11 +91,11 @@
                     style="@style/styleCollect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:checked="false" />
-            </FrameLayout>
-
-        </LinearLayout>
+                    android:checked="false"
+                    android:layout_below="@id/item_read_ebook"
+                    android:paddingRight="@dimen/border_space_sec" />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 

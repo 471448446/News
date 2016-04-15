@@ -32,4 +32,7 @@
     <!--小图片大小-->
     <dimen name="img_w">100dp</dimen>
     <dimen name="img_h">90dp</dimen>
+
+    <!--圆角大小-->
+    <dimen name="corner_dialog">5dp</dimen>
 </resources>
