@@ -1,6 +1,8 @@
 package better.news.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import better.news.R;
 import better.news.support.Setting;
 import better.news.support.util.ExitAppHelper;
+import better.news.support.util.Utils;
 import better.news.ui.about.AboutActivity;
 import better.news.ui.base.BaseActivity;
 import better.news.ui.coll.ColletTabFragment;
@@ -23,6 +26,7 @@ import better.news.ui.read.ReadTabFragment;
 import better.news.ui.science.ScienceTabFragment;
 import better.news.ui.setting.SettingActivity;
 
+import better.news.ui.widget.dialog.SearchDialog;
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -42,6 +46,8 @@ public class MainActivity extends BaseActivity {
     TextView tvRead;
     @Bind(R.id.drawer_collect)
     TextView tvCollect;
+    @Bind(R.id.book_search)FloatingActionButton btnSearch;
+    @Bind(R.id.main_coordinator_layout)CoordinatorLayout cor;//避免SnackBar弹出时覆盖FloatBtn 所View指定为CoordinatorLayout。
     SparseArray<TextView> views=new SparseArray<>();
 
     private ExitAppHelper appExitHelper;
@@ -71,7 +77,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        appExitHelper = new ExitAppHelper(this, drawerLayout);
+        appExitHelper = new ExitAppHelper(this, cor);
         views.put(R.id.drawer_days, tvDays);
         views.put(R.id.drawer_news, tvNews);
         views.put(R.id.drawer_read, tvRead);
@@ -119,7 +125,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.drawer_setting, R.id.drawer_days, R.id.drawer_news, R.id.drawer_science, R.id.drawer_read,
-            R.id.drawer_night, R.id.drawer_about, R.id.drawer_collect})
+            R.id.drawer_night, R.id.drawer_about, R.id.drawer_collect,R.id.book_search})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.drawer_setting:
@@ -133,6 +139,9 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.closeDrawers();
 //                appExitHelper.exitDreictly();
                 forward(AboutActivity.class);
+                break;
+            case R.id.book_search:
+                new SearchDialog().showDialog(getSupportFragmentManager());
                 break;
             default:
                 replaceFragment(v.getId());
@@ -155,6 +164,11 @@ public class MainActivity extends BaseActivity {
         }
         trans.commitAllowingStateLoss();
         clickItem(clickId);
+        if (R.id.drawer_read==clickId){
+            Utils.setVisible(btnSearch);
+        }else{
+            Utils.setGone(btnSearch);
+        }
     }
 
     private void clickItem(int v) {
