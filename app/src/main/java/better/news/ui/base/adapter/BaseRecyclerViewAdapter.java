@@ -89,6 +89,10 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
         this.isScrollToTop = isScrollToTop;
     }
 
+    public boolean isScrollToTop() {
+        return isScrollToTop;
+    }
+
     /**
      * 下拉数据，最新数据，会重置列表
      *

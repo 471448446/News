@@ -53,6 +53,7 @@ public class MainActivity extends BaseActivity {
     private ExitAppHelper appExitHelper;
     private int CONTAINER = R.id.content;
     private boolean isChangeNight;
+    private SearchDialog mSearchDialog;
 //    private int mLang = -1;
 
     @Override
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        mSearchDialog=new SearchDialog();
         appExitHelper = new ExitAppHelper(this, cor);
         views.put(R.id.drawer_days, tvDays);
         views.put(R.id.drawer_news, tvNews);
@@ -137,11 +139,11 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.drawer_about:
                 drawerLayout.closeDrawers();
-//                appExitHelper.exitDreictly();
                 forward(AboutActivity.class);
+                //                appExitHelper.exitDreictly();
                 break;
             case R.id.book_search:
-                new SearchDialog().showDialog(getSupportFragmentManager());
+                mSearchDialog.showDialog(getSupportFragmentManager());
                 break;
             default:
                 replaceFragment(v.getId());
