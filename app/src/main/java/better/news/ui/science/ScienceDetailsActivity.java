@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import better.news.data.sicence.ScienceDetailsBean;
 import better.news.http.HttpUtil;
 import better.news.http.callback.StringCallBack;
 import better.news.support.C;
 import better.news.support.util.JsonUtils;
 import better.news.ui.base.DetailImageActivity;
-import com.bumptech.glide.Glide;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import okhttp3.Call;
 
 public class ScienceDetailsActivity extends DetailImageActivity {
@@ -60,6 +60,11 @@ public class ScienceDetailsActivity extends DetailImageActivity {
 
             }
         }, waitPolicy);
+    }
+
+    @Override
+    protected String getShareTitle() {
+        return null;
     }
 
     @Override

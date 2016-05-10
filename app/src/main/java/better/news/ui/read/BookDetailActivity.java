@@ -107,6 +107,11 @@ public class BookDetailActivity extends BaseDetailActivity {
     }
 
     @Override
+    protected String getShareTitle() {
+        return mBean.getTitle();
+    }
+
+    @Override
     public void onMenuSelected(MenuItem item) {
         super.onMenuSelected(item);
         if (R.id.action_read_ebook == item.getItemId()) {

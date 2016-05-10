@@ -68,6 +68,11 @@ public class DaysDetailActivity extends DetailImageActivity {
     }
 
     @Override
+    protected String getShareTitle() {
+        return mIntentStories.getTitle();
+    }
+
+    @Override
     protected void addToCollection() {
         DayCache.execSQL(DayTable.updateCollectionFlag(mIntentStories.getTitle(), 1));
         cache.addToCollection(mIntentStories);

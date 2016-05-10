@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import better.news.db.Cache;
+
 /**
  * Des  RecyclerView Adapter 基类 子类需要重写 onBindViewHolder onCreateViewHolder<br>
  * thk http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0804/3259.html
@@ -92,7 +93,6 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
     public boolean isScrollToTop() {
         return isScrollToTop;
     }
-
     /**
      * 下拉数据，最新数据，会重置列表
      *
@@ -103,7 +103,7 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
         this.mList.clear();
         this.mList.addAll(list);
         notifyDataSetChanged();
-//        Utils.toastShort(mContext,"加载了数据"+list.size());
+//        Utils.toastShort(mContext,"加载了数据"+list.size()+String.valueOf(isUseScrollAnim));
     }
 
     /**
@@ -115,6 +115,7 @@ public abstract class BaseRecyclerViewAdapter<E, T extends RecyclerView.ViewHold
         if (null == list || list.isEmpty()) return;
         this.mList.addAll(list);
         notifyDataSetChanged();
+//        Utils.toastShort(mContext,"加载了数据"+list.size()+String.valueOf(isUseScrollAnim));
     }
     public void reSetList(List<E> list){
         this.mList=list;

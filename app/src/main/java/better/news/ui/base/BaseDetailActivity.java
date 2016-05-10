@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import better.news.R;
+import better.news.support.util.Utils;
 
 /**
  * Created by Better on 2016/4/9.
@@ -39,14 +40,18 @@ public abstract class BaseDetailActivity extends BaseActivity{
                 updateCollectionMenu(item);
               if (null!=mContainer) Snackbar.make(mContainer, R.string.notify_add_to_collection, Snackbar.LENGTH_SHORT).show();
             }
+        }else if (item.getItemId() == R.id.menu_share){
+            Utils.shareTxt(mContext,getShareTitle());
         }
         onMenuSelected(item);
         return true;
     }
 
+    protected abstract String getShareTitle();
+
     /**
      * 子类 新增的Item
-     * @param item
+     * @param item 选中的menu
      */
     public void onMenuSelected(MenuItem item){
 

@@ -72,8 +72,8 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
             mRecyclerView.addOnScrollListener(new BRecyclerOnScrollListener() {
                 @Override
                 public void onBottom() {
-                    if (!isLoadingBottom){
-                        isLoadingBottom=true;
+                    if (!isLoadingBottom) {
+                        isLoadingBottom = true;
                         asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
                     }
                 }
@@ -83,9 +83,9 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy>0){
+                if (dy > 0) {
                     adapter.setIsScrollToTop(false);
-                }else{
+                } else {
                     adapter.setIsScrollToTop(true);
                 }
             }
@@ -105,7 +105,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 }
             });
             mRecyclerView.getEmptyViewProxy().displayLoading();
-            Utils.v("BRecyclerView","Fragment 显示Empty");
+            Utils.v("BRecyclerView", "Fragment 显示Empty");
         }
         asyncListInfo(RequestType.DATA_REQUEST_INIT);
     }
@@ -146,13 +146,13 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 if (isEmpty) {
                     if (baseAdapter.getItemCount() > 0)
                         Utils.toastShort(getActivity(), R.string.str_loading_header_all);
-                    else if (null != mHeadAdapter.getFooterViewProxy())
-                        mHeadAdapter.getFooterViewProxy().displayMessage(requestMeg);
+                    else if (null != mHeadAdapter.getHeadViewProxy())
+                        mHeadAdapter.getHeadViewProxy().displayMessage(requestMeg);
                 }
                 if (null != baseAdapter) baseAdapter.addDownData(list);
                 break;
             case DATA_REQUEST_UP_REFRESH:
-                isLoadingBottom=false;
+                isLoadingBottom = false;
                 if (mRecyclerView.isNeedEmptyView())
                     Utils.setGone(mRecyclerView.getEmptyViewProxy().getProxyView());
                 if (isEmpty)
@@ -204,7 +204,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                     String errorMsg;
                     if (null == mCache.mLoadFailNetException) {
                         errorMsg = getString(R.string.str_loading_footer_all);
-                        Utils.v("BRecyclerView","--------------error  mLoadFailNetException="+String.valueOf(null== mCache.mLoadFailNetException));
+                        Utils.v("BRecyclerView", "--------------error  mLoadFailNetException=" + String.valueOf(null == mCache.mLoadFailNetException));
                     } else {
                         errorMsg = mCache.mLoadFailNetException.getMessage();
                     }

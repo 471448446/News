@@ -1,6 +1,9 @@
 package better.news.support.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import org.w3c.dom.Document;
@@ -173,5 +176,17 @@ public class Utils extends BaseUtils {
         }
         Utils.v("MainActivity","getCurrentLanguage（）="+lang);
         return lang;
+    }
+    public static void shareTxt(Activity activity,String msg){
+        Intent intent= new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.share_msg,msg));
+        intent.setType("text/plain");
+        PackageManager packageManager= activity.getPackageManager();
+        if(null!=packageManager&&intent.resolveActivity(packageManager)!=null){
+            activity.startActivityForResult(Intent.createChooser(intent, activity.getString(R.string.please_choose)),1);
+        }else{
+            Utils.toastShort(activity,activity.getString(R.string.share_no));
+        }
     }
 }

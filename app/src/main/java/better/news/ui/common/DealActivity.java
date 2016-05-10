@@ -180,8 +180,20 @@ public class DealActivity extends BaseDetailActivity {
 
     @Override
     protected boolean childrenInflateMenu(Menu menu) {
-        if (C.MODE_SCIENCE == mMode || C.MODE_NEWS == mMode) return false;
-        else return true;
+//        if (C.MODE_SCIENCE == mMode || C.MODE_NEWS == mMode) return false;
+//        else return true;
+        return !(C.MODE_SCIENCE == mMode || C.MODE_NEWS == mMode);
+    }
+
+    @Override
+    protected String getShareTitle() {
+        if (C.MODE_NEWS == mMode) {
+            return mRssItem.getTitle();
+        } else if (C.MODE_SCIENCE == mMode) {
+            return mScenceBean.getTitle();
+        }else{
+            return mTitleName;
+        }
     }
 
     @Override

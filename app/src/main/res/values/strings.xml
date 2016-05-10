@@ -37,7 +37,12 @@
 
     <string name="str_cancel">取消</string>
     <string name="str_confirm">确定</string>
+
     <string name="str_hint_book_name">请输入书籍名称</string>
     <string name="str_search_result">搜索结果</string>
     <string name="str_search">搜索</string>
+    <string name="share">分享</string>
+    <string name="share_no">手机中没有可以分享的软件</string>
+    <string name="share_msg">我正在用悦读软件阅读：%1$s</string>
+    <string name="please_choose">请选择</string>
 </resources>

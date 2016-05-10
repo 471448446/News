@@ -32,4 +32,12 @@
 
     <string name="str_cancel">Cancel</string>
     <string name="str_confirm">Comfirm</string>
+
+    <string name="str_hint_book_name">Please enter the title of the book</string>
+    <string name="str_search_result">Search Result</string>
+    <string name="str_search">Search</string>
+    <string name="share">Share</string>
+    <string name="share_no">You can not share your phone\'s software</string>
+    <string name="share_msg">I\'m reading %1$s with YuDu software</string>
+    <string name="please_choose">PLease Choose</string>
 </resources>
