@@ -45,6 +45,11 @@ public class NewsCollectCach extends Cache<RssItem> {
 
     @Override
     public void loadFromNet(RequestType type) {
+
+    }
+
+    @Override
+    public void load(RequestType type) {
 //        if (RequestType.DATA_REQUEST_DOWN_REFRESH==type){
 //            mLoadFailNetException=new Exception(MainApp.getInstance().getString(R.string.str_no_colllect));
 //            sendMessage(type,C.LOAD_FROM_NET_FAIL);

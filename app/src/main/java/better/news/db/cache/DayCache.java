@@ -55,54 +55,59 @@ public class DayCache extends Cache<DaysBean.StoriesBean> {
 
     @Override
     public void loadFromNet(final RequestType requestType) {
+        String url;
         switch (requestType) {
+            case DATA_REQUEST_UP_REFRESH:
+                url = DaysApi.getBeforeUrl(getLastStartId());
+                break;
+            default:
+                url = DaysApi.latest;
+                break;
+        }
+        HttpUtil.getRequest(url, new StringCallBack() {
+            @Override
+            public void onError(Call call, Exception e) {
+                mLoadFailNetException = e;
+                sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
+            }
+
+            @Override
+            public void onResponse(String response) {
+                ArrayList<String> collectionTitles = new ArrayList<String>();
+                if (null!=mList){
+                    for(int i = 0 ; i<mList.size() ; i++ ){
+                        if(mList.get(i).isColleted()){
+                            collectionTitles.add(mList.get(i).getTitle());
+                        }
+                    }
+                }
+                mList.clear();
+                bean = JsonUtils.fromJson(response, DaysBean.class);
+                if (null != bean) {
+                    mList = bean.getStories();
+                    for(String title:collectionTitles){
+                        for(int i=0 ; i<mList.size() ; i++){
+                            if(title.equals(mList.get(i).getTitle())){
+                                mList.get(i).setIsColleted(1);
+                            }
+                        }
+                    }
+                    sendMessage(requestType, C.LOAD_FROM_NET_SUCCESS);
+                } else {
+                    sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
+                }
+            }
+        }, null);
+    }
+
+    @Override
+    public void load(final RequestType type) {
+        switch (type) {
             case DATA_REQUEST_INIT:
                 loadFromCache();
                 break;
             default:
-                String url;
-                switch (requestType) {
-                    case DATA_REQUEST_UP_REFRESH:
-                        url = DaysApi.getBeforeUrl(getLastStartId());
-                        break;
-                    default:
-                        url = DaysApi.latest;
-                        break;
-                }
-                HttpUtil.getRequest(url, new StringCallBack() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        mLoadFailNetException = e;
-                        sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
-                    }
-
-                    @Override
-                    public void onResponse(String response) {
-                        ArrayList<String> collectionTitles = new ArrayList<String>();
-                        if (null!=mList){
-                            for(int i = 0 ; i<mList.size() ; i++ ){
-                                if(mList.get(i).isColleted()){
-                                    collectionTitles.add(mList.get(i).getTitle());
-                                }
-                            }
-                        }
-                        mList.clear();
-                        bean = JsonUtils.fromJson(response, DaysBean.class);
-                        if (null != bean) {
-                            mList = bean.getStories();
-                            for(String title:collectionTitles){
-                                for(int i=0 ; i<mList.size() ; i++){
-                                    if(title.equals(mList.get(i).getTitle())){
-                                        mList.get(i).setIsColleted(1);
-                                    }
-                                }
-                            }
-                            sendMessage(requestType, C.LOAD_FROM_NET_SUCCESS);
-                        } else {
-                            sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
-                        }
-                    }
-                }, null);
+               loadFromNet(type);
                 break;
         }
     }

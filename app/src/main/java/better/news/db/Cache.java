@@ -6,13 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
 
-import better.news.MainApp;
-import better.news.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import better.lib.recyclerview.RequestType;
+import better.news.MainApp;
+import better.news.R;
 
 /**
  * Created by Better on 2016/4/5.
@@ -53,8 +52,8 @@ public abstract class Cache<T> {
         this.mCategory=category;
         mHelper = DbOpenHelper.getInstance();
     }
+    public abstract void load(RequestType type);
     public abstract void loadFromCache();
-
     public abstract void loadFromNet(RequestType type);
 
     public abstract void putData();

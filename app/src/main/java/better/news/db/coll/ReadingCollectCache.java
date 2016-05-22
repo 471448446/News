@@ -3,16 +3,15 @@ package better.news.db.coll;
 import android.database.Cursor;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
+import better.lib.recyclerview.RequestType;
 import better.news.MainApp;
 import better.news.R;
 import better.news.data.read.ReadBean;
 import better.news.db.Cache;
 import better.news.db.table.ReadingTable;
 import better.news.support.C;
-
-import java.util.ArrayList;
-
-import better.lib.recyclerview.RequestType;
 
 /**
  * Created by Better on 2016/4/9.
@@ -56,6 +55,11 @@ public class ReadingCollectCache extends Cache<ReadBean.BooksBean> {
 
     @Override
     public void loadFromNet(RequestType type) {
+
+    }
+
+    @Override
+    public void load(RequestType type) {
 //        if (RequestType.DATA_REQUEST_DOWN_REFRESH == type) {
 //            mLoadFailNetException = new Exception(MainApp.getInstance().getString(R.string.str_no_colllect));
 //            sendMessage(type, C.LOAD_FROM_NET_FAIL);

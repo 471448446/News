@@ -50,6 +50,11 @@ public class ScienceCollectCache extends Cache<ScienceOutBean.ScienceBean> {
 
     @Override
     public void loadFromNet(RequestType type) {
+
+    }
+
+    @Override
+    public void load(RequestType type) {
         loadFromCache();
     }
 

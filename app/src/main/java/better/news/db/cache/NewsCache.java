@@ -3,6 +3,9 @@ package better.news.db.cache;
 import android.database.Cursor;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
+import better.lib.recyclerview.RequestType;
 import better.news.db.Cache;
 import better.news.db.table.NewsTable;
 import better.news.http.HttpUtil;
@@ -11,10 +14,6 @@ import better.news.support.C;
 import better.news.support.sax.RssFeed;
 import better.news.support.sax.RssItem;
 import better.news.support.util.Utils;
-
-import java.util.ArrayList;
-
-import better.lib.recyclerview.RequestType;
 import okhttp3.Call;
 
 /**
@@ -50,51 +49,56 @@ public class NewsCache extends Cache<RssItem> {
     }
 
     @Override
-    public void loadFromNet(final RequestType dataRequestInit) {
-        switch (dataRequestInit) {
+    public void loadFromNet(final RequestType type) {
+        HttpUtil.getRequest(url, new StringCallBack() {
+            @Override
+            public void onError(Call call, Exception e) {
+                mLoadFailNetException = e;
+                sendMessage(type, C.LOAD_FROM_NET_FAIL);
+            }
+
+            @Override
+            public void onResponse(String response) {
+                RssFeed rssFeed = Utils.getFeed(response);
+                if (null != rssFeed) {
+                    ArrayList<String> collectionTitles = new ArrayList<String>();
+                    for(int i = 0 ; i<mList.size() ; i++ ){
+                        if(mList.get(i).getIs_collected() == 1){
+                            collectionTitles.add(mList.get(i).getTitle());
+                            Utils.v("Better"," 保存的Title="+mList.get(i).getTitle());
+                        }
+                    }
+                    mList.clear();
+                    mList.addAll(rssFeed.getItems());
+                    for(String title:collectionTitles){
+                        for(int i=0 ; i<mList.size() ; i++){
+                            if(title.equals(mList.get(i).getTitle())){
+                                mList.get(i).setIs_collected(1);
+                            }
+                        }
+                    }
+
+//                            mList.clear();
+//                            mList = rssFeed.getItems();
+                    sendMessage(type, C.LOAD_FROM_NET_SUCCESS);
+                } else {
+                    sendMessage(type, C.LOAD_FROM_NET_FAIL);
+                }
+            }
+        }, null);
+    }
+
+    @Override
+    public void load(final RequestType type) {
+        switch (type) {
             case DATA_REQUEST_INIT:
                 loadFromCache();
                 break;
             case DATA_REQUEST_DOWN_REFRESH:
-                HttpUtil.getRequest(url, new StringCallBack() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        mLoadFailNetException = e;
-                        sendMessage(dataRequestInit, C.LOAD_FROM_NET_FAIL);
-                    }
-
-                    @Override
-                    public void onResponse(String response) {
-                        RssFeed rssFeed = Utils.getFeed(response);
-                        if (null != rssFeed) {
-                            ArrayList<String> collectionTitles = new ArrayList<String>();
-                            for(int i = 0 ; i<mList.size() ; i++ ){
-                                if(mList.get(i).getIs_collected() == 1){
-                                    collectionTitles.add(mList.get(i).getTitle());
-                                    Utils.v("Better"," 保存的Title="+mList.get(i).getTitle());
-                                }
-                            }
-                            mList.clear();
-                            mList.addAll(rssFeed.getItems());
-                            for(String title:collectionTitles){
-                                for(int i=0 ; i<mList.size() ; i++){
-                                    if(title.equals(mList.get(i).getTitle())){
-                                        mList.get(i).setIs_collected(1);
-                                    }
-                                }
-                            }
-
-//                            mList.clear();
-//                            mList = rssFeed.getItems();
-                            sendMessage(dataRequestInit, C.LOAD_FROM_NET_SUCCESS);
-                        } else {
-                            sendMessage(dataRequestInit, C.LOAD_FROM_NET_FAIL);
-                        }
-                    }
-                }, null);
+               loadFromNet(type);
                 break;
             default:
-                sendMessage(dataRequestInit, C.LOAD_FROM_NET_FAIL);
+                sendMessage(type, C.LOAD_FROM_NET_FAIL);
                 break;
         }
     }

@@ -3,6 +3,10 @@ package better.news.db.cache;
 import android.database.Cursor;
 import android.os.Handler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import better.lib.recyclerview.RequestType;
 import better.news.data.read.ReadBean;
 import better.news.db.Cache;
 import better.news.db.table.ReadingTable;
@@ -11,11 +15,6 @@ import better.news.http.api.ReadApi;
 import better.news.http.callback.StringCallBack;
 import better.news.support.C;
 import better.news.support.util.JsonUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import better.lib.recyclerview.RequestType;
 import okhttp3.Call;
 
 /**
@@ -59,13 +58,8 @@ public class ReadingCache extends Cache<ReadBean.BooksBean> {
     }
 
     @Override
-    public void loadFromNet(final RequestType requestType) {
-        if (null == urls || 0 == urls.length) return;
-        if (RequestType.DATA_REQUEST_INIT==requestType){
-            loadFromCache();
-            return;
-        }
-        if (RequestType.DATA_REQUEST_UP_REFRESH != requestType) {
+    public void loadFromNet(final RequestType type) {
+        if (RequestType.DATA_REQUEST_UP_REFRESH != type) {
             count = -1;
         }
         HashMap<String, Object> parms = new HashMap<>();
@@ -96,17 +90,27 @@ public class ReadingCache extends Cache<ReadBean.BooksBean> {
                                 }
                             }
                         }
-                        sendMessage(requestType, C.LOAD_FROM_NET_SUCCESS);
+                        sendMessage(type, C.LOAD_FROM_NET_SUCCESS);
                     }
                 }
 
                 @Override
                 public void onError(Call call, Exception e) {
                     mLoadFailNetException = e;
-                    sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
+                    sendMessage(type, C.LOAD_FROM_NET_FAIL);
                 }
             }, null);
         }
+    }
+
+    @Override
+    public void load(final RequestType type) {
+        if (null == urls || 0 == urls.length) return;
+        if (RequestType.DATA_REQUEST_INIT==type){
+            loadFromCache();
+            return;
+        }
+       loadFromNet(type);
     }
 
     @Override

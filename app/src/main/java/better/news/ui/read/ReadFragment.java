@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+
+import better.lib.recyclerview.RequestType;
 import better.news.data.read.ReadBean;
 import better.news.db.Cache;
 import better.news.db.cache.ReadingCache;
@@ -12,10 +15,6 @@ import better.news.http.api.ReadApi;
 import better.news.support.C;
 import better.news.ui.base.SimpleRefreshFragment;
 import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
-
-import java.util.List;
-
-import better.lib.recyclerview.RequestType;
 
 /**
  * Created by Better on 2016/3/23.
@@ -80,7 +79,7 @@ public class ReadFragment extends SimpleRefreshFragment {
 
     @Override
     protected void asyncListInfo(final RequestType requestType) {
-        mCache.loadFromNet(requestType);
+        mCache.load(requestType);
 //        if (null == mUrls || 0 == mUrls.length) return;
 //        if (RequestType.DATA_REQUEST_UP_REFRESH != requestType) {
 //            count = -1;

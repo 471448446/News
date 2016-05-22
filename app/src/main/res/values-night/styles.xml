@@ -15,4 +15,8 @@
         <item name="colorTabTextDefault">@color/colorTabTextDefault</item>
         <!--需要切换夜间模式   e-->
     </style>
+    <style name="SplashTheme" parent="AppTheme.TransparentNoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

@@ -178,7 +178,7 @@ public abstract class BaseListActivity<E> extends BaseActivity implements SwipeR
             switch (message.what) {
                 case C.LOAD_FORM_CACHE:
                     if (null == mCache.mList || mCache.mList.isEmpty()) {
-                        mCache.loadFromNet(RequestType.DATA_REQUEST_DOWN_REFRESH);
+                        mCache.load(RequestType.DATA_REQUEST_DOWN_REFRESH);
                     } else {//有数据
                         //这里只处理有数据的请求，没有数据的情况在loadFromCache()中处调用loadFromNet()
                         postRequestSuccess(type, mCache.mList, "");

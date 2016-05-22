@@ -59,7 +59,7 @@ public class DaysFragment extends SimpleRefreshFragment {
 
     @Override
     protected void asyncListInfo(final RequestType requestType) {
-        mCache.loadFromNet(requestType);
+        mCache.load(requestType);
 //        String url;
 //        switch (requestType){
 //            case DATA_REQUEST_UP_REFRESH:

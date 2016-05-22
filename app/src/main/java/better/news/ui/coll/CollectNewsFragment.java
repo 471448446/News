@@ -37,6 +37,6 @@ public class CollectNewsFragment extends SimpleNoLoadMoreRefreshFragment {
 
     @Override
     protected void asyncListInfo(RequestType requestType) {
-        mCache.loadFromNet(requestType);
+        mCache.load(requestType);
     }
 }

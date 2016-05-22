@@ -6,16 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+
+import better.lib.recyclerview.RequestType;
 import better.news.db.Cache;
 import better.news.db.cache.NewsCache;
 import better.news.support.C;
 import better.news.support.sax.RssItem;
 import better.news.ui.base.SimpleRefreshFragment;
 import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
-
-import java.util.List;
-
-import better.lib.recyclerview.RequestType;
 
 //import android.support.v4.app.Fragment;
 
@@ -81,7 +80,7 @@ public class NewsFragment extends SimpleRefreshFragment {
 
     @Override
     protected void asyncListInfo(final RequestType dataRequestInit) {
-        mCache.loadFromNet(dataRequestInit);
+        mCache.load(dataRequestInit);
 //        switch (dataRequestInit){
 //            case DATA_REQUEST_INIT:
 //            case DATA_REQUEST_DOWN_REFRESH:

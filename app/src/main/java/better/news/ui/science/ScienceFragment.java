@@ -67,7 +67,7 @@ public class ScienceFragment extends SimpleRefreshFragment{
 
     @Override
     protected void asyncListInfo(final RequestType requestType) {
-        mCache.loadFromNet(requestType);
+        mCache.load(requestType);
 //        switch (requestType){
 //            case DATA_REQUEST_UP_REFRESH:
 //                postRequestError(requestType,null,getString(R.string.str_loading_footer_all));

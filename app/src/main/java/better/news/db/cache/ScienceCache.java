@@ -3,6 +3,9 @@ package better.news.db.cache;
 import android.database.Cursor;
 import android.os.Handler;
 
+import java.util.ArrayList;
+
+import better.lib.recyclerview.RequestType;
 import better.news.data.sicence.ScienceOutBean;
 import better.news.db.Cache;
 import better.news.db.table.ScienceTable;
@@ -10,10 +13,6 @@ import better.news.http.HttpUtil;
 import better.news.http.callback.StringCallBack;
 import better.news.support.C;
 import better.news.support.util.JsonUtils;
-
-import java.util.ArrayList;
-
-import better.lib.recyclerview.RequestType;
 import okhttp3.Call;
 
 /**
@@ -56,8 +55,43 @@ public class ScienceCache extends Cache<ScienceOutBean.ScienceBean> {
     }
 
     @Override
-    public void loadFromNet(final RequestType requestType) {
-        switch (requestType){
+    public void loadFromNet(final RequestType type) {
+        HttpUtil.getRequest(url, new StringCallBack() {
+            @Override
+            public void onResponse(String response) {
+                ArrayList<String> collectionTitles = new ArrayList<String>();
+                if (null!=mList){
+                    for(int i = 0 ; i<mList.size() ; i++ ){
+                        if(mList.get(i).getIs_collected()==1){
+                            collectionTitles.add(mList.get(i).getTitle());
+                        }
+                    }
+                }
+                ScienceOutBean bean = JsonUtils.fromJson(response, ScienceOutBean.class);
+                if (null != bean) {
+                    mList.clear();
+                    mList=bean.getResult();
+                    for(String title:collectionTitles){
+                        for(int i=0 ; i<mList.size() ; i++){
+                            if(title.equals(mList.get(i).getTitle())){
+                                mList.get(i).setIs_collected(1);
+                            }
+                        }
+                    }
+                    sendMessage(type,C.LOAD_FROM_NET_SUCCESS);
+                }
+            }
+
+            @Override
+            public void onError(Call call, Exception e) {
+                sendMessage(type, C.LOAD_FROM_NET_FAIL);
+            }
+        }, null);
+    }
+
+    @Override
+    public void load(final RequestType type) {
+        switch (type){
             case DATA_REQUEST_UP_REFRESH:
                 sendMessage(RequestType.DATA_REQUEST_UP_REFRESH, C.LOAD_FROM_NET_FAIL);
                 break;
@@ -65,37 +99,7 @@ public class ScienceCache extends Cache<ScienceOutBean.ScienceBean> {
                 loadFromCache();
                 break;
             default:
-                HttpUtil.getRequest(url, new StringCallBack() {
-                    @Override
-                    public void onResponse(String response) {
-                       ArrayList<String> collectionTitles = new ArrayList<String>();
-                        if (null!=mList){
-                            for(int i = 0 ; i<mList.size() ; i++ ){
-                                if(mList.get(i).getIs_collected()==1){
-                                    collectionTitles.add(mList.get(i).getTitle());
-                                }
-                            }
-                        }
-                        ScienceOutBean bean = JsonUtils.fromJson(response, ScienceOutBean.class);
-                        if (null != bean) {
-                            mList.clear();
-                            mList=bean.getResult();
-                            for(String title:collectionTitles){
-                                for(int i=0 ; i<mList.size() ; i++){
-                                    if(title.equals(mList.get(i).getTitle())){
-                                        mList.get(i).setIs_collected(1);
-                                    }
-                                }
-                            }
-                           sendMessage(requestType,C.LOAD_FROM_NET_SUCCESS);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        sendMessage(requestType, C.LOAD_FROM_NET_FAIL);
-                    }
-                }, null);
+               loadFromNet(type);
                 break;
         }
     }
