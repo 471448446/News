@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import better.news.db.table.ReadingTable;
 import better.news.support.util.ImageUtil;
 import better.news.support.util.Utils;
 import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -47,11 +45,11 @@ public class ReadAdapter extends BaseRecyclerViewAdapter<ReadBean.BooksBean, Rea
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        if (isScrollToTop) {//根据滑动方向设置动画
-            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_down_right));
-        } else {
-            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_up_right));
-        }
+//        if (isScrollToTop) {//根据滑动方向设置动画
+//            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_down_right));
+//        } else {
+//            holder.itemView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_in_up_right));
+//        }
         final ReadBean.BooksBean bean = getItem(position);
         if (TextUtils.isEmpty(bean.getEbook_url())) {
             Utils.setGone(holder.imgEBook);
