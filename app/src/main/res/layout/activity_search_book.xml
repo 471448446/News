@@ -6,17 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="better.news.ui.read.search.SearchBookActivity">
-    <include layout="@layout/tool_bar"/>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/book_search_SwipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <better.lib.recyclerview.BRecyclerView
-            android:id="@+id/book_search_recyclerView"
+    <include layout="@layout/tool_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/book_search_SwipeRefresh"
             android:layout_width="match_parent"
-            app:isNeedFooter="false"
-            app:isNeedHeader="false"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
+
+            <better.lib.recyclerview.BRecyclerView
+                android:id="@+id/book_search_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isNeedFooter="false"
+                app:isNeedHeader="false" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </LinearLayout>

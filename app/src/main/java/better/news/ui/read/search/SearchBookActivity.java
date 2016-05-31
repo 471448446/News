@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import java.util.HashMap;
 
@@ -93,12 +92,14 @@ public class SearchBookActivity extends BaseListActivity<ReadBean.BooksBean> {
             @Override
             public void onResponse(String response) {
                 ReadBean bean = JsonUtils.fromJson(response, ReadBean.class);
-                postRequestSuccess(requestType,bean.getBooks(),"");
-                log(requestType+","+String.valueOf(null==bean)+"length=="+bean.getBooks().size()+","+String.valueOf(mRecyclerView.getEmptyViewProxy().getProxyView().getVisibility()== View.VISIBLE));
+                if (null==bean) return;
+                postRequestSuccess(requestType,bean.getBooks(),mContext.getString(R.string.books_no));
+//                log(requestType+","+String.valueOf(null==bean)+"length=="+bean.getBooks().size()+","+String.valueOf(mRecyclerView.getEmptyViewProxy().getProxyView().getVisibility()== View.VISIBLE));
             }
             @Override
             public void onError(Call call, Exception e) {
-                postRequestError(requestType,null, Utils.getExceptionMsg(e));
+                toast(Utils.getExceptionMsg(e,mContext.getString(R.string.books_no)));
+                postRequestError(requestType,null, Utils.getExceptionMsg(e,mContext.getString(R.string.books_no)));
             }
         }, null);
     }

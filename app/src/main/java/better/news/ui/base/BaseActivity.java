@@ -25,8 +25,14 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initNightMode(savedInstanceState);
+        if (preInitNightMode()){
+            initNightMode(savedInstanceState);
+        }
         mContext = this;
+    }
+    /**默认情况下初始化夜间模式*/
+    protected boolean preInitNightMode() {
+        return true;
     }
 
     /**
@@ -130,8 +136,6 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 标题返回，点击事件
      * xml文件onClick配置
-     *
-     * @param view
      */
     public void onBackButtonClick(View view) {
         if (preBackExitPage()) {
@@ -149,8 +153,6 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void getArgs() {
     }
-
-    ;
 
     protected void log(String msg) {
         Utils.v(this.getClass().getSimpleName(), msg);

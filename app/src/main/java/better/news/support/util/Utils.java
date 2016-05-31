@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.text.TextUtils;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -38,22 +39,27 @@ import better.news.support.sax.RssHandlerPlus;
  */
 public class Utils extends BaseUtils {
 
-    public static String getExceptionMsg(Exception e){
-        if (null==e)return MainApp.getInstance().getString(R.string.str_loading_footer_all);
+    public static String getExceptionMsg(Exception e) {
+        if (null == e) return MainApp.getInstance().getString(R.string.str_loading_footer_all);
         else return e.getMessage();
     }
+
+    /** 返回服务器消息或者友好展示msg*/
+    public static String getExceptionMsg(Exception e, String msg) {
+        if (null != e && !TextUtils.isEmpty(e.getMessage())) return e.getMessage();
+        else return msg;
+    }
+
     /**
      * 返回Rss
-     * @param response
-     * @return
      */
-    public static RssFeed getFeed(String response){
+    public static RssFeed getFeed(String response) {
         try {
-            InputStream is=new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
-            RssHandlerPlus handler=new RssHandlerPlus();
-            SAXParserFactory factory=SAXParserFactory.newInstance();
-            SAXParser parser=factory.newSAXParser();
-            XMLReader reader=parser.getXMLReader();
+            InputStream is = new ByteArrayInputStream(response.getBytes(Charset.forName("UTF-8")));
+            RssHandlerPlus handler = new RssHandlerPlus();
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser parser = factory.newSAXParser();
+            XMLReader reader = parser.getXMLReader();
             reader.setContentHandler(handler);
             reader.parse(new InputSource(is));
             return handler.getRssFeed();
@@ -66,33 +72,36 @@ public class Utils extends BaseUtils {
         }
         return null;
     }
-    public static String RegexFind(String regex,String string,int start,int end){
+
+    public static String RegexFind(String regex, String string, int start, int end) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
         String res = string;
-        while (matcher.find()){
+        while (matcher.find()) {
             res = matcher.group();
         }
         return res.substring(start, res.length() - end);
     }
-    public static String RegexReplace(String regex,String string,String replace){
+
+    public static String RegexReplace(String regex, String string, String replace) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
         return matcher.replaceAll(replace);
     }
-    public static String RegexFind(String regex,String string){
+
+    public static String RegexFind(String regex, String string) {
         return RegexFind(regex, string, 1, 1);
     }
 
-    public static InputStream readFileFromRaw(int fileID){
+    public static InputStream readFileFromRaw(int fileID) {
         return MainApp.getInstance().getResources()
                 .openRawResource(fileID);
     }
 
-    public static Document getDocmentByIS(InputStream is){
-        DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+    public static Document getDocmentByIS(InputStream is) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
-        Document doc =null;
+        Document doc = null;
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -106,61 +115,57 @@ public class Utils extends BaseUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return doc ;
+        return doc;
     }
 
     /**
      * 获取随机数
-     * @param size
-     * @param max
-     * @return
      */
-    public static int[] getRandomDifferent(int size,int max){
-        int[] diff=new int[size];
+    public static int[] getRandomDifferent(int size, int max) {
+        int[] diff = new int[size];
         int i;
-        for (int j=0;j<size;j++){
-            do{
-                i=getRandom(0,max);
-            }while (isEqual(diff,i,j));
+        for (int j = 0; j < size; j++) {
+            do {
+                i = getRandom(0, max);
+            } while (isEqual(diff, i, j));
         }
         return diff;
     }
 
-    private static boolean isEqual(int[] diff,  int random,int currentP) {
-        boolean is=false;
-        for (int item:diff){
-            is=item==random;
-            if(is)break;
+    private static boolean isEqual(int[] diff, int random, int currentP) {
+        boolean is = false;
+        for (int item : diff) {
+            is = item == random;
+            if (is) break;
         }
-        if(!is) diff[currentP]=random;
+        if (!is) diff[currentP] = random;
         return is;
     }
 
     /**
      * 获取随机数
-     * @param s
-     * @param e
-     * @return
      */
-    public static int getRandom(int s,int e){
-        Random random=new Random();
-        return random.nextInt(e)%(e-s+1)+s;
+    public static int getRandom(int s, int e) {
+        Random random = new Random();
+        return random.nextInt(e) % (e - s + 1) + s;
     }
+
     // Must be called before setContentView()
     public static void changeLanguage(Context context, int lang) {
         Configuration conf = context.getResources().getConfiguration();
         switch (lang) {
             case 0:
-                conf.locale=Locale.SIMPLIFIED_CHINESE;
+                conf.locale = Locale.SIMPLIFIED_CHINESE;
                 break;
             default://1
-                conf.locale=Locale.US;
+                conf.locale = Locale.US;
                 break;
         }
         context.getApplicationContext().getResources().updateConfiguration(conf, context.getResources().getDisplayMetrics());
     }
+
     public static int getCurrentLanguage(Context context) {
-        int lang = Setting.getInt(Setting.KEY_LANGUAGE,context);
+        int lang = Setting.getInt(Setting.KEY_LANGUAGE, context);
         if (lang == -1) {
             String language = Locale.getDefault().getLanguage();
             String country = Locale.getDefault().getCountry();
@@ -174,19 +179,20 @@ public class Utils extends BaseUtils {
                 lang = 1;//英文
             }
         }
-        Utils.v("MainActivity","getCurrentLanguage（）="+lang);
+        Utils.v("MainActivity", "getCurrentLanguage（）=" + lang);
         return lang;
     }
-    public static void shareTxt(Activity activity,String msg){
-        Intent intent= new Intent();
+
+    public static void shareTxt(Activity activity, String msg) {
+        Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.share_msg,msg));
+        intent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.share_msg, msg));
         intent.setType("text/plain");
-        PackageManager packageManager= activity.getPackageManager();
-        if(null!=packageManager&&intent.resolveActivity(packageManager)!=null){
-            activity.startActivityForResult(Intent.createChooser(intent, activity.getString(R.string.please_choose)),1);
-        }else{
-            Utils.toastShort(activity,activity.getString(R.string.share_no));
+        PackageManager packageManager = activity.getPackageManager();
+        if (null != packageManager && intent.resolveActivity(packageManager) != null) {
+            activity.startActivityForResult(Intent.createChooser(intent, activity.getString(R.string.please_choose)), 1);
+        } else {
+            Utils.toastShort(activity, activity.getString(R.string.share_no));
         }
     }
 }

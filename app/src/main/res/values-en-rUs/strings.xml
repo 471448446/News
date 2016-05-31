@@ -40,4 +40,5 @@
     <string name="share_no">You can not share your phone\'s software</string>
     <string name="share_msg">I\'m reading %1$s with YuDu software</string>
     <string name="please_choose">PLease Choose</string>
+    <string name="books_no">No related books</string>
 </resources>

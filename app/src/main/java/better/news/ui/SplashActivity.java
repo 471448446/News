@@ -23,4 +23,9 @@ public class SplashActivity extends BaseActivity {
             }
         },1000);
     }
+
+    @Override
+    protected boolean preInitNightMode() {
+        return false;
+    }
 }
