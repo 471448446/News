@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import java.util.ArrayList;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.MainApp;
 import better.news.R;
 import better.news.data.days.DaysBean;

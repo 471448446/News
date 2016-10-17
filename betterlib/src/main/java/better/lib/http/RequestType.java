@@ -1,4 +1,4 @@
-package better.lib.recyclerview;
+package better.lib.http;
 
 /**
  * Created by Better on 2016/3/15.

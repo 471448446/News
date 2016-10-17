@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.HashMap;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.R;
 import better.news.data.read.ReadBean;
 import better.news.db.Cache;

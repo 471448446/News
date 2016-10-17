@@ -10,7 +10,7 @@ import better.news.db.table.NewsTable;
 import better.news.support.C;
 import better.news.support.sax.RssItem;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 
 /**
  * Created by Better on 2016/4/9.

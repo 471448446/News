@@ -8,7 +8,7 @@ import better.news.ui.base.SimpleNoLoadMoreRefreshFragment;
 import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 import better.news.ui.science.ScienceAdapter;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 
 /**
  * Created by Better on 2016/4/10.

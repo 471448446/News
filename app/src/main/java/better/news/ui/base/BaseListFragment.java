@@ -10,7 +10,7 @@ import java.util.List;
 
 import better.lib.recyclerview.BRecyclerOnScrollListener;
 import better.lib.recyclerview.BRecyclerView;
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.lib.waitpolicy.emptyproxy.EmptyViewProxy;
 import better.lib.waitpolicy.emptyproxy.FooterEmptyView;
 import better.news.R;

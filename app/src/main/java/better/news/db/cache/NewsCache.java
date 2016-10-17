@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import java.util.ArrayList;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.db.Cache;
 import better.news.db.table.NewsTable;
 import better.news.http.HttpUtil;

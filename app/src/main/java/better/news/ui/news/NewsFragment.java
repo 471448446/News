@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.db.Cache;
 import better.news.db.cache.NewsCache;
 import better.news.support.C;

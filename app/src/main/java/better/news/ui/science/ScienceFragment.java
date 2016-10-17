@@ -15,7 +15,7 @@ import better.news.ui.base.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 
 /**
  * Created by Better on 2016/3/20.

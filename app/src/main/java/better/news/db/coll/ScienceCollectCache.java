@@ -11,7 +11,7 @@ import better.news.db.table.ScienceTable;
 import better.news.support.C;
 import better.news.support.util.Utils;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 
 /**
  * Created by Better on 2016/4/9.

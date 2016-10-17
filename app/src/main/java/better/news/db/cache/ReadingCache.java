@@ -6,7 +6,7 @@ import android.os.Handler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.data.read.ReadBean;
 import better.news.db.Cache;
 import better.news.db.table.ReadingTable;

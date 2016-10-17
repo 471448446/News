@@ -9,7 +9,7 @@ import android.os.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-import better.lib.recyclerview.RequestType;
+import better.lib.http.RequestType;
 import better.news.MainApp;
 import better.news.R;
 
