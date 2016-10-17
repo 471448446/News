@@ -2,15 +2,18 @@ package better.lib.recyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
-import better.lib.waitpolicy.emptyproxy.DefaultEmptyView;
 import better.lib.R;
 import better.lib.utils.BaseUtils;
+import better.lib.waitpolicy.emptyproxy.DefaultEmptyView;
+import better.lib.waitpolicy.emptyproxy.EmptyViewProxy;
 
 /**
  * Created by Better on 2016/3/11.
@@ -24,82 +27,189 @@ import better.lib.utils.BaseUtils;
  * 当一个屏幕占不满时如何 隐藏footerView？？
  */
 public class BRecyclerView extends RecyclerView {
-    private DefaultEmptyView emptyViewProxy;
-    private int mDefaultItemCount=1;//默认RecyclerViewAdapter count 展示emptyView，默认展示FooterView，所以当adapter，count等于1表述没有数据，展示emptyview
-    private boolean hasPreparedEmpty;//确保emptyView只添加一次
-    private boolean isNeedEmptyView =true;//默认是有的
-    private boolean isNeedFooter=true,isNeedHeader;
+    private EmptyViewProxy mEmptyViewProxy;
+    private int mDefaultItemCount = 1;//默认RecyclerViewAdapter count 展示emptyView，默认展示FooterView，所以当adapter，count等于1表述没有数据，展示emptyview
+    private boolean hasPreparedEmpty,//确保emptyView只添加一次
+            isNeedEmptyView = true,//默认是有的
+            isNeedFooter = true, isNeedHeader;
+    private AdapterDataObserver emptyObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            adapterItemChanged();
+        }
+    };
+    private ViewTreeObserver.OnGlobalLayoutListener layoutListener;
+
+    private HeaderViewProxyRecyclerAdapter proxyRecyclerAdapter;
 
     public BRecyclerView(Context context) {
         super(context);
-        prepareDefaultEmpty(context);
+        prepareEmptyView(null);
     }
 
     public BRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initValues(context, attrs);
-        prepareDefaultEmpty(context);
+        prepareEmptyView(null);
     }
 
-//    public BRecyclerView(Context context, AttributeSet attrs, int defStyle) {
-//        super(context, attrs, defStyle);
-//        prepareDefaultEmpty(context);
-//    }
+    public BRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        prepareEmptyView(null);
+    }
 
     private void initValues(Context context, AttributeSet attrs) {
-        if(null!=attrs){
-            TypedArray typedArray=context.obtainStyledAttributes(attrs, R.styleable.BRecyclerView);
-            final int N=typedArray.getIndexCount();
+        if (null != attrs) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BRecyclerView);
+            final int N = typedArray.getIndexCount();
             for (int i = 0; i < N; i++) {
                 initCustomAttr(typedArray.getIndex(i), typedArray);
             }
             typedArray.recycle();
         }
     }
-    private void initCustomAttr(int attr, TypedArray typedArray){
-        if(attr==R.styleable.BRecyclerView_isNeedFooter){
-            isNeedFooter= typedArray.getBoolean(attr, isNeedFooter);
+
+    private void initCustomAttr(int attr, TypedArray typedArray) {
+        if (attr == R.styleable.BRecyclerView_isNeedFooter) {
+            isNeedFooter = typedArray.getBoolean(attr, isNeedFooter);
             if (!isNeedFooter) mDefaultItemCount--;//默认已经为其+1了，当不支持footerView时-1
-//            if (isNeedFooter) mDefaultItemCount++;
-//            log("设置 footer"+String.valueOf(isShowFooter)+mDefaultItemCount);
-        }else if (attr==R.styleable.BRecyclerView_isNeedHeader){
-            isNeedHeader= typedArray.getBoolean(attr,isNeedHeader);
+        } else if (attr == R.styleable.BRecyclerView_isNeedHeader) {
+            isNeedHeader = typedArray.getBoolean(attr, isNeedHeader);
             if (isNeedHeader) mDefaultItemCount++;
-//            log("设置 header"+String.valueOf(isShowHeader)+mDefaultItemCount);
-        }else if(attr==R.styleable.BRecyclerView_isNeedEmptyView){
-            isNeedEmptyView =typedArray.getBoolean(attr, isNeedEmptyView);
+        } else if (attr == R.styleable.BRecyclerView_isNeedEmptyView) {
+            isNeedEmptyView = typedArray.getBoolean(attr, isNeedEmptyView);
         }
     }
+
+    @Override
+    public void setAdapter(Adapter adapter) {
+        super.setAdapter(prepareProxyAdapter(adapter));
+        if (isNeedEmptyView) {
+            if (null != adapter) {
+                adapter.registerAdapterDataObserver(emptyObserver);
+            }
+            emptyObserver.onChanged();//不一定有用，没有完成布局 获取不到parent
+        }
+    }
+
+    private HeaderViewProxyRecyclerAdapter prepareProxyAdapter(Adapter adapter) {
+        proxyRecyclerAdapter = new HeaderViewProxyRecyclerAdapter(adapter);
+        proxyRecyclerAdapter.setIsShowFooterView(isNeedFooter);
+        proxyRecyclerAdapter.setIsShowHeaderView(isNeedHeader);
+        return proxyRecyclerAdapter;
+    }
+
+    public HeaderViewProxyRecyclerAdapter getProxyAdapter() {
+        return proxyRecyclerAdapter;
+    }
+
+    public Adapter getWrappedAdapter() {
+        return proxyRecyclerAdapter.getWrappedAdapter();
+    }
+
+    //=======常用Proxy方法=======
+    public void setFootViewProxy(EmptyViewProxy emptyViewProxy) {
+        proxyRecyclerAdapter.addFooterViewProxy(emptyViewProxy);
+    }
+
+    public EmptyViewProxy getFooterViewProxy() {
+        return proxyRecyclerAdapter.getFooterViewProxy();
+    }
+
+    public void setHeadViewProxy(EmptyViewProxy emptyViewProxy) {
+        proxyRecyclerAdapter.addHeadViewProxy(emptyViewProxy);
+    }
+
+    public EmptyViewProxy getHeadViewProxy() {
+        return proxyRecyclerAdapter.getFooterViewProxy();
+    }
+
+    public EmptyViewProxy getEmptyViewProxy() {
+        return mEmptyViewProxy;
+    }
+
+    public void setLoadMoreProxy(EmptyViewProxy footerEmptyView, OnScrollListener listener) {
+        if (isNeedFooter) {
+            setFootViewProxy(footerEmptyView);
+            BRecyclerView.this.addOnScrollListener(listener);
+        }
+    }
+
+    public EmptyViewProxy setEmptyViewProxy(EmptyViewProxy proxy) {
+        prepareEmptyView(proxy);
+        return mEmptyViewProxy;
+    }
+    //=======常用Proxy方法=======
+
+    private void removeRecyclerEmptyView() {
+        try {
+            LinearLayout layout = (LinearLayout) BRecyclerView.this.getParent().getParent();
+            layout.removeView(mEmptyViewProxy.getProxyView());
+        } catch (Exception e) {
+            Log.w("BRecyclerView", "parent  不是LinearLayout" + e.getMessage());
+        }
+    }
+
+    private void addRecyclerEmptyView() {
+        try {
+            LinearLayout layout = (LinearLayout) BRecyclerView.this.getParent().getParent();
+            layout.addView(mEmptyViewProxy.getProxyView(), 0, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//            log(String.valueOf(null == layout) + "," + String.valueOf(null == BRecyclerView.this.getParent()));
+            adapterItemChanged();
+        } catch (Exception e) {
+            Log.w("BRecyclerView", "parent  不是LinearLayout" + e.getMessage());
+        }
+    }
+
     /**
      * 准备 emptyView的 parent
-     *
-     * @param context
      */
-    private void prepareDefaultEmpty(Context context) {
+    private void prepareEmptyView(EmptyViewProxy proxy) {
+        if (!isNeedEmptyView) return;
+        if (null == proxy)
+            mEmptyViewProxy = new DefaultEmptyView(getContext());
+        else {
+            removeRecyclerEmptyView();
+            mEmptyViewProxy = proxy;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            this.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
+        if (getWidth() == 0) {
+            this.getViewTreeObserver().addOnGlobalLayoutListener(getLayoutListener());
+        } else {
+            addRecyclerEmptyView();
+        }
+    }
 
-        if (isNeedEmptyView) emptyViewProxy = new DefaultEmptyView(context);
-        this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    @NonNull
+    private ViewTreeObserver.OnGlobalLayoutListener getLayoutListener() {
+        layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if (!hasPreparedEmpty) {
                     hasPreparedEmpty = true;
-                    try {
-                        if (isNeedEmptyView){
-                            LinearLayout layout = (LinearLayout) BRecyclerView.this.getParent().getParent();
-                            layout.addView(emptyViewProxy.getProxyView(), 0, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                            log(String.valueOf(null == layout) + "," + String.valueOf(null == BRecyclerView.this.getParent()));
-                            adapterItemChanged();
-                        }
-                    } catch (Exception e) {
-                        Log.w("BRecyclerView", "parent  不是LinearLayout" + e.getMessage());
+                    if (isNeedEmptyView) {
+                        addRecyclerEmptyView();
                     }
                 }
             }
-        });
+        };
+        return layoutListener;
     }
 
-    public DefaultEmptyView getEmptyViewProxy() {
-        return emptyViewProxy;
+    private void adapterItemChanged() {
+        Adapter<?> adapter = getWrappedAdapter();
+        if (null != adapter && null != mEmptyViewProxy && hasPreparedEmpty) {
+            log("adapter count=" + adapter.getItemCount());
+            if (mDefaultItemCount == adapter.getItemCount()) {
+                BaseUtils.setGone(BRecyclerView.this);
+                BaseUtils.setVisible(mEmptyViewProxy.getProxyView());
+            } else {
+                BaseUtils.setGone(mEmptyViewProxy.getProxyView());
+                BaseUtils.setVisible(BRecyclerView.this);
+            }
+        }
     }
 
     public boolean isNeedFooter() {
@@ -112,40 +222,6 @@ public class BRecyclerView extends RecyclerView {
 
     public boolean isNeedEmptyView() {
         return isNeedEmptyView;
-    }
-
-    @Override
-    public void setAdapter(Adapter adapter) {
-        super.setAdapter(adapter);
-        log("isNeedEmptyView=========="+String.valueOf(isNeedEmptyView));
-        if (isNeedEmptyView){
-            if (null != adapter) {
-                adapter.registerAdapterDataObserver(emptyObserver);
-            }
-            emptyObserver.onChanged();//不一定有用，没有完成布局 获取不到parent
-        }
-    }
-
-    private AdapterDataObserver emptyObserver = new AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            adapterItemChanged();
-        }
-    };
-
-    private void adapterItemChanged() {
-        Adapter<?> adapter = getAdapter();
-        if (null != adapter && null != emptyViewProxy&& hasPreparedEmpty) {
-            log("adapter count="+adapter.getItemCount());
-            if (mDefaultItemCount == adapter.getItemCount()) {    log("显示emotyView");
-                BaseUtils.setGone(BRecyclerView.this);
-                BaseUtils.setVisible(emptyViewProxy.getProxyView());
-            } else {
-                BaseUtils.setGone(emptyViewProxy.getProxyView());
-                BaseUtils.setVisible(BRecyclerView.this);
-            }
-        }
     }
 
     private void log(String msg) {

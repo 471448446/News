@@ -10,7 +10,6 @@ import java.util.List;
 
 import better.lib.recyclerview.BRecyclerOnScrollListener;
 import better.lib.recyclerview.BRecyclerView;
-import better.lib.recyclerview.HeaderViewProxyRecyclerAdapter;
 import better.lib.recyclerview.RequestType;
 import better.lib.waitpolicy.emptyproxy.EmptyViewProxy;
 import better.lib.waitpolicy.emptyproxy.FooterEmptyView;
@@ -30,7 +29,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
 
     protected SwipeRefreshLayout mRefreshLayout;
     protected BRecyclerView mRecyclerView;
-    protected HeaderViewProxyRecyclerAdapter mHeadAdapter;
+    //    protected HeaderViewProxyRecyclerAdapter mHeadAdapter;
     protected BaseRecyclerViewAdapter adapter;
     protected boolean isLoadingBottom;//避免上一次还在加载时又触发loadingMore，本次需求是这样的，loadingMore失败时不改变此值只有加载成功后才修改此值
 
@@ -40,10 +39,6 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
 
     protected abstract BaseRecyclerViewAdapter getAdapter();
 
-    //    /**
-//     * footer重试
-//     */
-//    protected abstract void onFooterRetryClick();
     protected Cache<E> mCache;
 
     protected abstract Cache<E> getCache();
@@ -51,34 +46,58 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
     /**
      * 获取列表信息
      *
-     * @param requestType
+     * @param requestType 请求类型
      */
     protected abstract void asyncListInfo(RequestType requestType);
 
     protected void initRefresh(int refreshLayoutId, int recyclerId) {
         mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(refreshLayoutId);
         mRecyclerView = (BRecyclerView) rootView.findViewById(recyclerId);
-        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         adapter = getAdapter();
+        mRecyclerView.setLayoutManager(getLayoutManager());
+        mRecyclerView.setAdapter(adapter);
 
-        mHeadAdapter = new HeaderViewProxyRecyclerAdapter(adapter);
-        mHeadAdapter.setIsShowFooterView(mRecyclerView.isNeedFooter());
-        mHeadAdapter.setIsShowHeaderView(mRecyclerView.isNeedHeader());
-        if (mRecyclerView.isNeedFooter()) {
-            createLoadingMoreLay();
-            mRecyclerView.addOnScrollListener(new BRecyclerOnScrollListener() {
-                @Override
-                public void onBottom() {
-                    if (!isLoadingBottom) {
-                        isLoadingBottom = true;
-                        asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
-                    }
+        mRecyclerView.setLoadMoreProxy(new FooterEmptyView(getActivity()).setOnRetryClickListener(new EmptyViewProxy.onLrRetryClickListener() {
+            @Override
+            public void onRetryClick() {
+                asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
+            }
+        }),new BRecyclerOnScrollListener() {
+            @Override
+            public void onBottom() {
+                if (!isLoadingBottom) {
+                    isLoadingBottom = true;
+                    asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
                 }
-            });
+            }
+        });
+//        if (mRecyclerView.isNeedFooter()) {
+//            createLoadingMoreLay();
+//            mRecyclerView.addOnScrollListener(new BRecyclerOnScrollListener() {
+//                @Override
+//                public void onBottom() {
+//                    if (!isLoadingBottom) {
+//                        isLoadingBottom = true;
+//                        asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
+//                    }
+//                }
+//            });
+//        }
+
+        if (mRecyclerView.isNeedEmptyView()) {
+            mRecyclerView.getEmptyViewProxy().setOnRetryClickListener(new EmptyViewProxy.onLrRetryClickListener() {
+                @Override
+                public void onRetryClick() {
+//                onLoadingRetry();
+                    asyncListInfo(RequestType.DATA_REQUEST_INIT);
+                }
+            }).displayLoading();
+            Utils.v("BRecyclerView", "Fragment 显示Empty");
         }
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -90,23 +109,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 }
             }
         });
-
-        mRecyclerView.setLayoutManager(getLayoutManager());
-        mRecyclerView.setAdapter(mHeadAdapter);
-
         mRefreshLayout.setOnRefreshListener(this);
-
-        if (mRecyclerView.isNeedEmptyView()) {
-            mRecyclerView.getEmptyViewProxy().setOnRetryClickListener(new EmptyViewProxy.onLrRetryClickListener() {
-                @Override
-                public void onRetryClick() {
-//                onLoadingRetry();
-                    asyncListInfo(RequestType.DATA_REQUEST_INIT);
-                }
-            });
-            mRecyclerView.getEmptyViewProxy().displayLoading();
-            Utils.v("BRecyclerView", "Fragment 显示Empty");
-        }
         asyncListInfo(RequestType.DATA_REQUEST_INIT);
     }
 
@@ -120,7 +123,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 asyncListInfo(RequestType.DATA_REQUEST_UP_REFRESH);
             }
         });
-        mHeadAdapter.addFooterViewProxy(footerEmptyView);
+        mRecyclerView.getProxyAdapter().addFooterViewProxy(footerEmptyView);
     }
 
     @Override
@@ -132,7 +135,7 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
     public void postRequestSuccess(RequestType requestType, List<E> list, String requestMeg) {
         mRefreshLayout.setRefreshing(false);
         boolean isEmpty = list.isEmpty() || null == list;
-        BaseRecyclerViewAdapter baseAdapter = (BaseRecyclerViewAdapter) mHeadAdapter.getWrappedAdapter();
+        BaseRecyclerViewAdapter baseAdapter = (BaseRecyclerViewAdapter) mRecyclerView.getWrappedAdapter();
         switch (requestType) {
             case DATA_REQUEST_INIT:
                 if (isEmpty && mRecyclerView.isNeedEmptyView())
@@ -146,8 +149,8 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 if (isEmpty) {
                     if (baseAdapter.getItemCount() > 0)
                         Utils.toastShort(getActivity(), R.string.str_loading_header_all);
-                    else if (null != mHeadAdapter.getHeadViewProxy())
-                        mHeadAdapter.getHeadViewProxy().displayMessage(requestMeg);
+                    else if (null != mRecyclerView.getHeadViewProxy())
+                        mRecyclerView.getHeadViewProxy().displayMessage(requestMeg);
                 }
                 if (null != baseAdapter) baseAdapter.addDownData(list);
                 break;
@@ -156,8 +159,8 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 if (mRecyclerView.isNeedEmptyView())
                     Utils.setGone(mRecyclerView.getEmptyViewProxy().getProxyView());
                 if (isEmpty)
-                    if (null != mHeadAdapter.getFooterViewProxy())
-                        mHeadAdapter.getFooterViewProxy().displayMessage(getString(R.string.str_loading_footer_all));
+                    if (null != mRecyclerView.getFooterViewProxy())
+                        mRecyclerView.getFooterViewProxy().displayMessage(getString(R.string.str_loading_footer_all));
                 if (null != baseAdapter) baseAdapter.addPullData(list);
                 break;
         }
@@ -174,8 +177,8 @@ public abstract class BaseListFragment<E> extends BaseFragment implements SwipeR
                 Utils.toastShort(getActivity(), requestMeg);
                 break;
             case DATA_REQUEST_UP_REFRESH:
-                if (null != mHeadAdapter.getFooterViewProxy())
-                    mHeadAdapter.getFooterViewProxy().displayRetry(requestMeg);
+                if (null != mRecyclerView.getFooterViewProxy())
+                    mRecyclerView.getFooterViewProxy().displayRetry(requestMeg);
                 break;
         }
     }

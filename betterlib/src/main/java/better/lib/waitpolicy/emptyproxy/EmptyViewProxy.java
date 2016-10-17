@@ -15,8 +15,9 @@ public abstract class EmptyViewProxy {
     public abstract void displayLoading();
     public abstract void displayLoading(String msg);
     public abstract View getProxyView();
-    public void setOnRetryClickListener(onLrRetryClickListener listener) {
+    public EmptyViewProxy setOnRetryClickListener(onLrRetryClickListener listener) {
         mListener = listener;
+        return this;
     }
     public interface onLrRetryClickListener {
          void onRetryClick();
